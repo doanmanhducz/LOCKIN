@@ -1,0 +1,19 @@
+node_modules
+**/node_modules
+dist
+build
+frontend/dist
+backend/data
+
+# Local env files and logs
+.env
+*.env
+*.log
+
+# Git
+.git
+.gitignore
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -76,3 +76,34 @@ Expected response:
 	"message": "LOCKIN backend is running"
 }
 ```
+
+## Docker (development)
+
+These Docker artifacts let you run the LOCKIN development environment without installing Node locally. The compose setup mounts your local source so changes appear immediately in the containers (hot-reload).
+
+Build and start the dev environment:
+
+```bash
+docker compose build
+docker compose up
+```
+
+Notes:
+- Backend: exposed at `http://localhost:5000` (runs `npm run dev` inside the container).
+- Frontend: Vite dev server exposed at `http://localhost:3000` (runs `npm run dev` inside the container).
+- The frontend's Vite proxy can be configured with `VITE_BACKEND_URL`; the compose file sets it to `http://host.docker.internal:5000` so the frontend dev server inside the container forwards `/api` requests to the host Docker engine where the backend service is reachable.
+
+Stopping and removing containers:
+
+```bash
+docker compose down
+```
+
+Production build (optional):
+
+```bash
+# Build frontend production image (nginx) and run it
+docker compose build frontend
+docker run -p 8080:80 --rm frontend_prod_image_name
+```
+
