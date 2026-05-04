@@ -1,5 +1,5 @@
 # Backend Dockerfile (development friendly)
-FROM node:24-slim
+FROM node:22-slim
 
 WORKDIR /app
 
@@ -7,7 +7,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install all dependencies (including devDependencies) for development
-RUN npm ci
+RUN npm install
 
 # Copy app source
 COPY . ./
