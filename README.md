@@ -1,4 +1,4 @@
-# LOCKIN
+# LOCKIN  
 
 LOCKIN is a personal productivity dashboard that combines planning, focus tracking, journaling/blogging, meal-gym logging, and portfolio information in one place.
 
