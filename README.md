@@ -1,74 +1,152 @@
 # LOCKIN     
 
-LOCKIN is a personal productivity dashboard that combines planning, focus tracking, journaling/blogging, meal-gym logging, and portfolio information in one place.
+LOCKIN là một personal productivity dashboard được xây để gom tất cả thứ quan trọng trong một workspace duy nhất: portfolio, blog, todo, meal tracking, gym log và Pomodoro. Mục tiêu của project là giúp bạn theo dõi công việc, giữ nhịp tập trung và lưu lại tiến trình phát triển mỗi ngày.
 
-## Features
+## Tổng Quan
 
-- Portfolio profile and experience overview
-- Blog posts for daily reflection and progress notes
-- Todo management with priority and status
-- Meal tracking with calories and notes
-- Gym session tracking
-- Pomodoro sessions and settings
+Ứng dụng gồm 2 phần chính:
+
+- Frontend React/Vite để hiển thị dashboard và các module quản lý.
+- Backend Express + SQLite để cung cấp API, lưu dữ liệu cục bộ và seed dữ liệu mẫu.
+
+Màn hình chính là một dashboard tối màu, có các khối riêng cho portfolio, blog, todo, meal, gym và Pomodoro. Backend có sẵn dữ liệu demo để bạn mở app lên là dùng được ngay.
+
+## Tính Năng Chính
+
+- Portfolio profile với thông tin cá nhân, kinh nghiệm, kỹ năng, dự án và liên kết mạng xã hội.
+- Blog section để ghi chú, phản tư, viết bài ngắn hoặc nhật ký tiến độ.
+- Todo management có trạng thái, độ ưu tiên và ngày đến hạn.
+- Meal tracking để theo dõi món ăn, calories và ghi chú.
+- Gym session tracking để lưu bài tập, số set, số rep và lượng calories đốt.
+- Pomodoro tracking để ghi lại các phiên tập trung và thời gian nghỉ.
+- REST API tách biệt rõ ràng giữa frontend và backend.
+- Docker setup cho môi trường dev nếu không muốn cài Node trực tiếp trên máy.
 
 ## Tech Stack
 
-- Frontend: React + Vite + Tailwind CSS
-- Backend: Node.js + Express
-- Database: SQLite (better-sqlite3)
+- Frontend: React 19, Vite, Tailwind CSS, Recharts.
+- Backend: Node.js, Express, better-sqlite3.
+- Tooling: npm workspaces, concurrently, Docker Compose.
 
-## Project Structure
+## Cấu Trúc Thư Mục
 
 ```text
 LOCKIN/
-	frontend/   # React app (port 3000)
-	backend/    # Express API (port 5000)
-	package.json
+	frontend/            # React app chạy ở port 3000
+		src/
+		Dockerfile
+		vite.config.js
+	backend/             # Express API chạy ở port 5000
+		config/
+		controllers/
+		routes/
+		models/
+		seed/
+		Dockerfile
+	docker-compose.yml   # Chạy frontend + backend bằng Docker
+	package.json         # Workspace root scripts
+	.gitignore
+	README.md
 ```
 
-## Getting Started
+## Yêu Cầu Cần Có
 
-### 1. Install dependencies
+- Node.js 18+ hoặc 20+.
+- npm đi kèm Node.
+- Docker Desktop nếu muốn chạy bằng Docker.
 
-From the project root:
+## Chạy Dự Án Bằng npm
+
+### 1. Cài dependencies
+
+Tại thư mục gốc của repo:
 
 ```bash
 npm install
 ```
 
-### 2. Run development servers
+Lệnh này sẽ cài dependencies cho root workspace và các package con `frontend`, `backend`.
+
+### 2. Chạy dev mode
 
 ```bash
 npm run dev
 ```
 
-This starts:
+Lệnh này chạy đồng thời:
 
-- Frontend at `http://localhost:3000`
-- Backend at `http://localhost:5000`
+- Frontend tại `http://localhost:3000`
+- Backend tại `http://localhost:5000`
 
-### 3. Seed sample data (optional)
+### 3. Chạy riêng từng phần
+
+```bash
+npm run dev:frontend
+npm run dev:backend
+```
+
+### 4. Seed dữ liệu mẫu
 
 ```bash
 npm run seed
 ```
 
-Note: The backend also initializes and seeds baseline data at startup when needed.
+Backend cũng sẽ tự khởi tạo database và seed dữ liệu cơ bản khi cần, nên bước này là tùy chọn.
 
-## Root Scripts
+## Chạy Bằng Docker
 
-- `npm run dev`: Run frontend and backend together
-- `npm run dev:frontend`: Run only frontend
-- `npm run dev:backend`: Run only backend
-- `npm run seed`: Seed backend data
+LOCKIN có sẵn cấu hình Docker cho môi trường phát triển. Cách này phù hợp khi bạn muốn chạy toàn bộ app mà không cài Node trực tiếp trên máy.
 
-## API Health Check
+### Build và chạy
 
-```text
+```bash
+docker compose build
+docker compose up
+```
+
+### Dừng container
+
+```bash
+docker compose down
+```
+
+### Ghi chú Docker
+
+- Backend expose ở `http://localhost:5000`.
+- Frontend expose ở `http://localhost:3000`.
+- Compose đang mount source code local để hỗ trợ hot reload.
+- Frontend có thể nhận backend URL qua biến `VITE_BACKEND_URL`.
+
+## Scripts Chính
+
+Ở root project:
+
+- `npm run dev`: chạy frontend và backend cùng lúc.
+- `npm run dev:frontend`: chạy riêng frontend.
+- `npm run dev:backend`: chạy riêng backend.
+- `npm run seed`: seed dữ liệu mẫu cho backend.
+
+Ở frontend:
+
+- `npm run dev`: chạy Vite dev server.
+- `npm run build`: build production.
+- `npm run preview`: preview bản build.
+
+Ở backend:
+
+- `npm run dev`: chạy server với `node --watch`.
+- `npm run start`: chạy server production mode.
+- `npm run seed`: seed database.
+
+## API Chính
+
+### Health check
+
+```bash
 GET /api/health
 ```
 
-Expected response:
+Response mẫu:
 
 ```json
 {
@@ -77,33 +155,33 @@ Expected response:
 }
 ```
 
-## Docker (development)
+### Nhóm endpoint hiện có
 
-These Docker artifacts let you run the LOCKIN development environment without installing Node locally. The compose setup mounts your local source so changes appear immediately in the containers (hot-reload).
+- `/api/portfolio`
+- `/api/blogs`
+- `/api/todos`
+- `/api/meals`
+- `/api/gym`
+- `/api/pomodoro`
 
-Build and start the dev environment:
+## Luồng Hoạt Động
 
-```bash
-docker compose build
-docker compose up
-```
+1. Frontend gọi API qua đường dẫn `/api`.
+2. Vite proxy chuyển request sang backend chạy ở port 5000.
+3. Backend đọc/ghi dữ liệu qua SQLite.
+4. Dữ liệu demo được seed để dashboard có nội dung ngay từ lần chạy đầu tiên.
 
-Notes:
-- Backend: exposed at `http://localhost:5000` (runs `npm run dev` inside the container).
-- Frontend: Vite dev server exposed at `http://localhost:3000` (runs `npm run dev` inside the container).
-- The frontend's Vite proxy can be configured with `VITE_BACKEND_URL`; the compose file sets it to `http://host.docker.internal:5000` so the frontend dev server inside the container forwards `/api` requests to the host Docker engine where the backend service is reachable.
+## Phát Triển Tiếp
 
-Stopping and removing containers:
+Một số hướng mở rộng hợp lý cho LOCKIN:
 
-```bash
-docker compose down
-```
+- Thêm auth và user riêng biệt.
+- Lưu nhiều profile / nhiều workspace cá nhân.
+- Dashboard statistics sâu hơn cho todo, meal và gym.
+- Export dữ liệu ra JSON/CSV.
+- Đồng bộ dữ liệu lên cloud hoặc database server.
 
-Production build (optional):
+## Trạng Thái Dự Án
 
-```bash
-# Build frontend production image (nginx) and run it
-docker compose build frontend
-docker run -p 8080:80 --rm frontend_prod_image_name
-```
+Project hiện đang ở giai đoạn MVP nhưng đã đủ để chạy local, seed dữ liệu và thao tác trên các module chính.
 
