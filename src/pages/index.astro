@@ -1,0 +1,9 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PortraitPlaceholder from '../components/PortraitPlaceholder.astro';
+import ResearchCard from '../components/ResearchCard.astro';
+import { site } from '../config/site';
+const recent = (await getCollection('research', ({ data }) => !data.draft)).sort((a,b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()).slice(0,3);
+---
+<BaseLayout title="Field Notes"><section class="hero"><div><p class="mono muted">RESEARCHER / SECURITY PRACTITIONER / WRITER</p><h1>Work at the edge of certainty.</h1><p class="lede">{site.summary}</p><span class="stamp mono">OPEN FOR CORRESPONDENCE</span></div><PortraitPlaceholder /></section><section class="section"><div class="section-head"><h2>Recent field notes</h2><a class="mono muted" href="/research">VIEW ALL RESEARCH</a></div><div class="card-list">{recent.map((entry) => <ResearchCard entry={entry} />)}</div></section><section class="dark-band"><p class="mono">HALL OF FAME / STATUS: COMPILED</p><h2>A record, not a resume.</h2><p>Public papers. CVE discoveries. Credentials. Acknowledgements. A career path traced through the work itself.</p></section></BaseLayout>

@@ -1,5 +1,5 @@
 type ResearchEntry = {
-  slug: string;
+  id: string;
   data: {
     type: string;
     tags: string[];
@@ -14,12 +14,12 @@ export function filterResearchEntries<T extends ResearchEntry>(entries: T[], typ
   );
 }
 
-export function getRelatedResearch<T extends ResearchEntry>(entries: T[], currentSlug: string, max = 3): T[] {
-  const current = entries.find((entry) => entry.slug === currentSlug);
+export function getRelatedResearch<T extends ResearchEntry>(entries: T[], currentId: string, max = 3): T[] {
+  const current = entries.find((entry) => entry.id === currentId);
   if (!current) return [];
 
   return entries
-    .filter((entry) => entry.slug !== currentSlug)
+    .filter((entry) => entry.id !== currentId)
     .map((entry) => ({
       entry,
       score: entry.data.tags.filter((tag) => current.data.tags.includes(tag)).length

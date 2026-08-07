@@ -10,3 +10,9 @@ export const site = {
   ],
   giscus: null
 } as const;
+
+export const navigation = [
+  { label: 'About', href: '/about' },
+  { label: 'Research', href: '/research' },
+  { label: 'Hall of Fame', href: '/hall-of-fame' }
+] as const;
