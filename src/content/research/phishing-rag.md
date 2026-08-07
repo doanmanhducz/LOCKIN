@@ -9,8 +9,24 @@ featured: true
 coverLabel: 'RIVF 2025'
 ---
 
-This work studies phishing website detection through multimodal learning and retrieval-augmented reasoning, combining URL, structured feature, and HTML signals.
+The harder a phishing page works to look familiar, the more important it becomes to ask what the model is actually reasoning from. I was interested in whether retrieval could make that reasoning more deliberate.
 
-## Publication
+## Why I cared
 
-Presented at the RIVF International Conference on Computing and Communication Technologies in 2025.
+Detection is not useful if it cannot explain what persuaded it. The goal was to make the final decision feel less like a black box that happened to be right.
+
+## The question
+
+How can URL, structured features, and HTML work with retrieval-augmented reasoning without making the system slower or less legible?
+
+## What the work explores
+
+The paper combines multimodal signals with selective cross-attention and retrieval-augmented reasoning. Retrieval is reserved for the inputs where extra context has the most to say.
+
+## What I would keep investigating
+
+I would keep testing where explanation turns into decoration. A convincing answer is not automatically a useful one.
+
+## Source
+
+[Read the publication on IEEE Xplore](https://ieeexplore.ieee.org/document/11365186).
