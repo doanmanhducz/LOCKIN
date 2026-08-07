@@ -1,12 +1,10 @@
 export const site = {
-  name: 'Your Name',
-  nickname: 'YOUR HANDLE',
-  summary: 'Security researcher, practitioner, and writer collecting field notes from the edge of certainty.',
-  cvHref: '/cv-placeholder.pdf',
+  name: 'Doan Manh Duc',
+  nickname: 'Doan Dokja / doanmanhducz',
+  summary: 'AI and cybersecurity researcher working on LLM security, attack surface management, and practical vulnerability research.',
+  cvHref: null,
   socialLinks: [
-    { label: 'GitHub', href: null },
-    { label: 'LinkedIn', href: null },
-    { label: 'Facebook', href: null }
+    { label: 'Email', href: 'mailto:doanmanhduc1704@gmail.com' }
   ],
   giscus: null
 } as const;
