@@ -28,9 +28,18 @@ it('mounts a base-path-safe, user-controlled background music player', () => {
 
   expect(layout).toContain('<MusicControl src={sitePath(\'/audio/TimEm.mp3\')} />');
   expect(component).toContain('loop');
+  expect(component).toContain('autoplay');
   expect(component).toContain('preload="metadata"');
   expect(component).toContain('localStorage');
   expect(component).toContain('Play background music');
   expect(component).toContain('Pause background music');
   expect(component).toContain('audio.volume = 0.25');
+  expect(component).toContain("if (preference !== 'off') void play();");
+});
+
+it('does not override fixed controls while placing content above the canvas', () => {
+  const css = readFileSync(new URL('../src/styles/global.css', import.meta.url), 'latin1');
+
+  expect(css).toContain('body>main,body>.site-footer{position:relative;z-index:2}');
+  expect(css).not.toContain('body> :not(.constellation-canvas):not(.scanlines){position:relative;z-index:2}');
 });

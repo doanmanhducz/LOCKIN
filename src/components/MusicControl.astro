@@ -1,7 +1,7 @@
 ---
 const { src } = Astro.props;
 ---
-<audio class="background-music" src={src} loop preload="metadata"></audio>
+<audio class="background-music" src={src} loop autoplay preload="metadata"></audio>
 <button class="music-toggle" type="button" aria-label="Play background music" aria-pressed="false"><span aria-hidden="true">♫</span></button>
 
 <script>
@@ -52,7 +52,8 @@ const { src } = Astro.props;
         updateButton(false);
       }
     };
-    const attemptResume = () => {
+    const attemptResume = (event?: Event) => {
+      if (event?.target instanceof Node && button.contains(event.target)) return;
       if (preference !== 'off') void play();
     };
     const cleanup = () => {
@@ -63,6 +64,7 @@ const { src } = Astro.props;
     };
 
     updateButton(false);
+    if (preference !== 'off') void play();
     button.addEventListener('click', toggleMusic);
     document.addEventListener('pointerdown', attemptResume, { once: true, passive: true });
     document.addEventListener('keydown', attemptResume, { once: true });
