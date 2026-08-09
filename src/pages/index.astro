@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { portfolio, site } from '../config/site';
+import { sitePath } from '../lib/paths';
 ---
 <BaseLayout title="Security Research Portfolio" currentPath="/">
   <section class="hero" id="home" aria-labelledby="hero-title">
@@ -28,8 +29,13 @@ import { portfolio, site } from '../config/site';
   </section>
 
   <section class="section reveal" id="projects" aria-labelledby="projects-title">
-    <header class="section-title"><p>$ ls ~/projects</p><h2 id="projects-title">Selected projects</h2><i></i></header>
+    <header class="section-title"><p>$ ls ~/projects</p><h2 id="projects-title">Projects</h2><i></i></header>
     <div class="project-grid">{portfolio.projects.map((project) => <article class="project-card"><div><h3>{project.title}</h3><p>{project.description}</p><div class="tags"><span>{project.language}</span></div></div><a class="button button-outline" href={project.url} target="_blank" rel="noreferrer">View Project</a></article>)}</div>
+  </section>
+
+  <section class="section reveal" id="publications" aria-labelledby="publications-title">
+    <header class="section-title"><p>$ cat publications.log</p><h2 id="publications-title">Publications</h2><i></i></header>
+    <div class="publication-grid">{portfolio.publications.map((publication) => <article class="publication-card"><p class="publication-venue">{publication.venue}</p><h3>{publication.title}</h3><p>{publication.description}</p><a class="button button-outline" href={publication.url.startsWith('/') ? sitePath(publication.url) : publication.url} target="_blank" rel="noreferrer">{publication.linkLabel} ↗</a></article>)}</div>
   </section>
 
   <section class="section contact-section reveal" id="contact" aria-labelledby="contact-title">

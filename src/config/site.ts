@@ -36,6 +36,10 @@ export const portfolio = {
     { title: 'Website_Malware_Detection', description: 'A machine-learning-based system for detecting malware on websites to enhance web security.', language: 'Python', url: 'https://github.com/doanmanhducz/Website_Malware_Detection' },
     { title: 'Apollon_MAB_IDS', description: 'An adversarial-resilient intrusion-detection system using multi-armed bandits with dynamic classifier selection.', language: 'Jupyter Notebook', url: 'https://github.com/doanmanhducz/Apollon_MAB_IDS' }
   ],
+  publications: [
+    { venue: 'ACIIDS 2026', title: 'PhishFusion: A Multimodal Phishing Detection Framework Using Joint URL and JavaScript Features', description: 'A multimodal phishing detection framework combining raw URLs, structured URL features, and JavaScript code.', url: '/research/phishfusion', linkLabel: 'Read paper note' },
+    { venue: 'RIVF 2025', title: 'Phishing Website Detection via Multimodal Learning and Retrieval-Augmented Reasoning', description: 'Research on multimodal phishing detection with retrieval-augmented reasoning.', url: 'https://ieeexplore.ieee.org/document/11365186', linkLabel: 'Read on IEEE Xplore' }
+  ],
   writeUps: [
     { title: 'Tracing the Thin Edge of Authentication', type: 'Case note', excerpt: 'A placeholder field note on following authorization decisions through a noisy stack.' },
     { title: 'When a Finding Is Not Yet a Finding', type: 'Research note', excerpt: 'A short argument for evidence, reproduction, and knowing when to stop.' },
