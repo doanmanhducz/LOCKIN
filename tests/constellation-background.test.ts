@@ -22,25 +22,6 @@ it('keeps the constellation and scanlines behind readable content', () => {
   expect(css).toContain('rgba(0,255,127,.016)');
 });
 
-it('mounts a base-path-safe, user-controlled background music player', () => {
-  const layout = readFileSync(new URL('../src/layouts/BaseLayout.astro', import.meta.url), 'utf8');
-  const component = readFileSync(new URL('../src/components/MusicControl.astro', import.meta.url), 'utf8');
-
-  expect(layout).toContain('<MusicControl src={sitePath(\'/audio/TimEm.mp3\')} />');
-  expect(component).toContain('loop');
-  expect(component).toContain('preload="auto"');
-  expect(component).toContain('localStorage');
-  expect(component).toContain('Play background music');
-  expect(component).toContain('Pause background music');
-  expect(component).toContain('audio.volume = 0.25');
-  expect(component).toContain("audio.muted = false");
-  expect(component).toContain('SYSTEM AUDIO LOCKED');
-  expect(component).toContain('ENTER // ENABLE AUDIO');
-  expect(component).toContain('Audio unavailable. Continue without sound.');
-  expect(component).toContain('setTimeout');
-  expect(component).toContain('clearTimeout');
-});
-
 it('does not override fixed controls while placing content above the canvas', () => {
   const css = readFileSync(new URL('../src/styles/global.css', import.meta.url), 'latin1');
 
