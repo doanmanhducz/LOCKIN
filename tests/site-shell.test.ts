@@ -1,5 +1,6 @@
 import { expect, it } from 'vitest';
 import { navigation } from '../src/config/site';
+import { site } from '../src/config/site';
 import { sitePath } from '../src/lib/paths';
 
 it('keeps the three approved primary pages', () => {
@@ -8,4 +9,8 @@ it('keeps the three approved primary pages', () => {
 
 it('prefixes internal paths with the GitHub Pages base', () => {
   expect(sitePath('/hall-of-fame')).toBe('/LOCKIN/hall-of-fame');
+});
+
+it('exposes a terminal identity label for the shared shell', () => {
+  expect(site.terminalIdentity).toBe('doandokja@field-notes:~$');
 });

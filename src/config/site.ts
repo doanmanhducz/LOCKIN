@@ -1,6 +1,7 @@
 export const site = {
   name: 'Doan Manh Duc',
   nickname: 'Doan Dokja / doanmanhducz',
+  terminalIdentity: 'doandokja@field-notes:~$',
   summary: 'AI and cybersecurity researcher working on LLM security, attack surface management, and practical vulnerability research.',
   cvHref: null,
   socialLinks: [
