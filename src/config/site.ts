@@ -37,7 +37,7 @@ export const portfolio = {
     { title: 'Apollon_MAB_IDS', description: 'An adversarial-resilient intrusion-detection system using multi-armed bandits with dynamic classifier selection.', language: 'Jupyter Notebook', url: 'https://github.com/doanmanhducz/Apollon_MAB_IDS' }
   ],
   publications: [
-    { venue: 'ACIIDS 2026', title: 'PhishFusion: A Multimodal Phishing Detection Framework Using Joint URL and JavaScript Features', description: 'A multimodal phishing detection framework combining raw URLs, structured URL features, and JavaScript code.', url: '/research/phishfusion', linkLabel: 'Read paper note' },
+    { venue: 'ACIIDS 2026', title: 'PhishFusion: A Multimodal Phishing Detection Framework Using Joint URL and JavaScript Features', description: 'A multimodal phishing detection framework combining raw URLs, structured URL features, and JavaScript code.', url: 'https://link.springer.com/chapter/10.1007/978-981-92-0263-8_39', linkLabel: 'Read on Springer' },
     { venue: 'RIVF 2025', title: 'Phishing Website Detection via Multimodal Learning and Retrieval-Augmented Reasoning', description: 'Research on multimodal phishing detection with retrieval-augmented reasoning.', url: 'https://ieeexplore.ieee.org/document/11365186', linkLabel: 'Read on IEEE Xplore' }
   ],
   writeUps: [
