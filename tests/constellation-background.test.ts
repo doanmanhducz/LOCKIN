@@ -37,6 +37,8 @@ it('mounts a base-path-safe, user-controlled background music player', () => {
   expect(component).toContain('SYSTEM AUDIO LOCKED');
   expect(component).toContain('ENTER // ENABLE AUDIO');
   expect(component).toContain('Audio unavailable. Continue without sound.');
+  expect(component).toContain('setTimeout');
+  expect(component).toContain('clearTimeout');
 });
 
 it('does not override fixed controls while placing content above the canvas', () => {
@@ -44,4 +46,5 @@ it('does not override fixed controls while placing content above the canvas', ()
 
   expect(css).toContain('body>main,body>.site-footer{position:relative;z-index:2}');
   expect(css).not.toContain('body> :not(.constellation-canvas):not(.scanlines){position:relative;z-index:2}');
+  expect(css).toContain('.back-to-top{z-index:7}');
 });

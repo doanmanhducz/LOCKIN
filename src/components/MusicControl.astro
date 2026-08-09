@@ -65,7 +65,19 @@ const { src } = Astro.props;
     };
     const play = async () => {
       try {
-        await audio.play();
+        let timeoutId: ReturnType<typeof setTimeout> | undefined;
+        const didStart = await Promise.race([
+          audio.play().then(() => true).catch(() => false),
+          new Promise<boolean>((resolve) => {
+            timeoutId = setTimeout(() => resolve(false), 5000);
+          })
+        ]);
+        if (timeoutId) clearTimeout(timeoutId);
+        if (!didStart) {
+          audio.pause();
+          updateButton(false);
+          return false;
+        }
         persist(true);
         updateButton(true);
         return true;
