@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { portfolio } from '../config/site';
 ---
-<BaseLayout title="Security Research Portfolio">
+<BaseLayout title="Security Research Portfolio" currentPath="/">
   <section class="hero" id="home" aria-labelledby="hero-title">
     <div class="terminal-window">
       <div class="terminal-titlebar"><span class="traffic"><i></i><i></i><i></i></span><span>yourname@portfolio:~$</span></div>
@@ -31,16 +31,6 @@ import { portfolio } from '../config/site';
     <header class="section-title"><p>$ ls ~/projects</p><h2 id="projects-title">Selected projects</h2><i></i></header>
     <div class="project-grid">{portfolio.projects.map((project) => <article class="project-card"><div><h3>{project.title}</h3><p>{project.description}</p><div class="tags">{project.tags.map((tag) => <span>{tag}</span>)}</div></div><a class="button button-outline" href="#contact">View Project</a></article>)}</div>
     <p class="section-action"><a class="button button-outline" href="#contact">View More on GitHub</a></p>
-  </section>
-
-  <section class="section reveal" id="write-ups" aria-labelledby="writeups-title">
-    <header class="section-title"><p>$ cat ~/notes/index</p><h2 id="writeups-title">Write-ups</h2><i></i></header>
-    <div class="writeup-list">{portfolio.writeUps.map((item, index) => <article><span>0{index + 1}</span><div><p>{item.type}</p><h3>{item.title}</h3><p>{item.excerpt}</p></div><a href="#contact" aria-label={`Read ${item.title}`}>Read →</a></article>)}</div>
-  </section>
-
-  <section class="section reveal" id="blog" aria-labelledby="blog-title">
-    <header class="section-title"><p>$ tail -n 2 ~/journal.log</p><h2 id="blog-title">Blog</h2><i></i></header>
-    <div class="blog-list">{portfolio.blog.map((entry) => <article><time>{entry.date}</time><div><h3>{entry.title}</h3><p>{entry.excerpt}</p></div><a href="#contact">Open note →</a></article>)}</div>
   </section>
 
   <section class="section contact-section reveal" id="contact" aria-labelledby="contact-title">

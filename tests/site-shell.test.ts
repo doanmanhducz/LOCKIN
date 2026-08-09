@@ -5,7 +5,7 @@ import { sitePath } from '../src/lib/paths';
 
 it('keeps the primary navigation on one accessible page', () => {
   expect(navigation.map((item) => item.href)).toEqual([
-    '#home', '#skills', '#certifications', '#projects', '#write-ups', '#blog', '#contact'
+    '#home', '#skills', '#certifications', '#projects', '/writeups', '/blog', '#contact'
   ]);
 });
 

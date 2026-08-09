@@ -13,8 +13,8 @@ export const portfolioNavigation = [
   { label: 'Skills', href: '#skills' },
   { label: 'Certifications', href: '#certifications' },
   { label: 'Projects', href: '#projects' },
-  { label: 'Write-Ups', href: '#write-ups' },
-  { label: 'Blog', href: '#blog' },
+  { label: 'Write-Ups', href: '/writeups' },
+  { label: 'Blog', href: '/blog' },
   { label: 'Contact', href: '#contact' }
 ] as const;
 

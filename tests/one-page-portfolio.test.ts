@@ -7,8 +7,8 @@ it('defines the approved one-page navigation in visual order', () => {
     '#skills',
     '#certifications',
     '#projects',
-    '#write-ups',
-    '#blog',
+    '/writeups',
+    '/blog',
     '#contact'
   ]);
 });

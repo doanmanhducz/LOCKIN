@@ -16,6 +16,7 @@ npm.cmd run build
 
 - Update identity, social links, CV path, and optional Giscus settings in `src/config/site.ts`.
 - Add a Markdown file under `src/content/research/` with the required frontmatter fields.
+- Add a Write-Up or Blog post under `src/content/posts/`. Set `type` to `writeup` or `blog`, use a unique `slug`, and keep `draft: true` until it is ready to publish. Optional covers go in `public/images/posts/`; set `coverImage: /images/posts/your-file.svg` in frontmatter.
 - Add a paper, CVE, credential, acknowledgement, or career step in `src/data/hall-of-fame.ts`.
 - Run `npm.cmd run check`, `npm.cmd test -- --run`, and `npm.cmd run build`, then commit and push to `main`.
 
