@@ -3,8 +3,10 @@ import { navigation } from '../src/config/site';
 import { site } from '../src/config/site';
 import { sitePath } from '../src/lib/paths';
 
-it('keeps the three approved primary pages', () => {
-  expect(navigation.map((item) => item.href)).toEqual(['/about', '/research', '/hall-of-fame']);
+it('keeps the primary navigation on one accessible page', () => {
+  expect(navigation.map((item) => item.href)).toEqual([
+    '#home', '#skills', '#certifications', '#projects', '#write-ups', '#blog', '#contact'
+  ]);
 });
 
 it('prefixes internal paths with the GitHub Pages base', () => {
@@ -12,5 +14,5 @@ it('prefixes internal paths with the GitHub Pages base', () => {
 });
 
 it('exposes a terminal identity label for the shared shell', () => {
-  expect(site.terminalIdentity).toBe('doandokja@field-notes:~$');
+  expect(site.terminalIdentity).toBe('yourname@portfolio:~$');
 });
