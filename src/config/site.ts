@@ -21,22 +21,20 @@ export const portfolioNavigation = [
 // Keep repeatable profile content in one place so replacing placeholders is painless.
 export const portfolio = {
   roles: 'ASM / Pentest / Security Researcher',
-  introduction: 'I investigate where systems bend, write down what matters, and build quieter ways to make them safer.',
+  introduction: 'Vibe Hacker',
   skillGroups: [
-    { title: 'Offensive Research', items: ['Web application security', 'Attack surface mapping', 'Vulnerability validation', 'Responsible disclosure'] },
-    { title: 'Applied Security', items: ['Threat modeling', 'Secure architecture review', 'Cloud security posture', 'Detection engineering'] },
-    { title: 'Research Toolkit', items: ['Python & automation', 'Protocol analysis', 'LLM security', 'Technical writing'] }
+    { title: 'Programming Languages', items: ['Python', 'C/C++'] },
+    { title: 'Technical Skills', items: ['Web Development', 'Offensive Security', 'AI Security Research'] },
+    { title: 'Others', items: ['Fluent in English and Vietnamese', 'Knows Korean and Chinese curse words'] }
   ],
-  certifications: [
-    { id: 'cert-foundations', category: 'Security Foundations', title: 'Security Research Foundations', issuer: 'Placeholder Institute', description: 'A sample credential card. Replace its title, issuer, and full-image link from this config.', tone: 'matrix' },
-    { id: 'cert-web', category: 'Offensive Practice', title: 'Web Exploitation Practice', issuer: 'Placeholder Academy', description: 'A sample badge for practical web security work.', tone: 'signal' },
-    { id: 'cert-cloud', category: 'Security Foundations', title: 'Cloud Security Essentials', issuer: 'Placeholder Institute', description: 'A sample badge for cloud and infrastructure research.', tone: 'grid' },
-    { id: 'cert-analysis', category: 'Offensive Practice', title: 'Adversarial Analysis', issuer: 'Placeholder Academy', description: 'A sample credential for research methodology.', tone: 'terminal' }
-  ],
+  achievements: ['Leader, ChapBaiSlayer CTF Team — peak Top 10 Vietnam', 'Top 20 — Hack The Box: Project Nightfall 2026 CTF', 'Top 13 — Hack The Box: The Salt Crown 2026 CTF'],
   projects: [
-    { title: 'Surface Ledger', description: 'A concise attack-surface inventory workflow for keeping complex targets legible.', tags: ['automation', 'recon'] },
-    { title: 'Signal Triage', description: 'A research notebook pattern that separates useful security signals from scanner noise.', tags: ['analysis', 'tooling'] },
-    { title: 'Model Boundary Tests', description: 'Small reproducible checks for studying trust boundaries in AI-enabled systems.', tags: ['AI security', 'research'] }
+    { title: 'Eureka2024_Web', description: 'An ecosystem for combating online fraud, including Voice Phishing, Mail Phishing, Phone Number Phishing, and other anti-fraud utilities.', language: 'HTML', url: 'https://github.com/doanmanhducz/Eureka2024_Web' },
+    { title: 'YDCC', description: 'YDCC 2024 — a cybersecurity hackathon project and the foundational idea for an anti-fraud ecosystem website integrating AI in fraud prevention.', language: 'HTML', url: 'https://github.com/doanmanhducz/YDCC' },
+    { title: 'Cryptography_CP-ABE', description: 'Encryption, access control, and queries on cloud data for real-estate transactions.', language: 'Python', url: 'https://github.com/doanmanhducz/Cryptography_CP-ABE' },
+    { title: 'Steganography', description: 'Implementing steganography in text, image, audio, and video using LSB, phase coding, and spread-spectrum algorithms.', language: 'Jupyter Notebook', url: 'https://github.com/doanmanhducz/Steganography' },
+    { title: 'Website_Malware_Detection', description: 'A machine-learning-based system for detecting malware on websites to enhance web security.', language: 'Python', url: 'https://github.com/doanmanhducz/Website_Malware_Detection' },
+    { title: 'Apollon_MAB_IDS', description: 'An adversarial-resilient intrusion-detection system using multi-armed bandits with dynamic classifier selection.', language: 'Jupyter Notebook', url: 'https://github.com/doanmanhducz/Apollon_MAB_IDS' }
   ],
   writeUps: [
     { title: 'Tracing the Thin Edge of Authentication', type: 'Case note', excerpt: 'A placeholder field note on following authorization decisions through a noisy stack.' },
@@ -47,7 +45,7 @@ export const portfolio = {
     { date: '2026.08.09', title: 'The Work Before the Report', excerpt: 'Research begins before the payload: with attention, context, and a refusal to confuse motion with progress.' },
     { date: '2026.07.22', title: 'Notes on Quiet Systems', excerpt: 'The most interesting behavior often lives in the places that dashboards do not name.' }
   ],
-  contact: { email: 'mailto:doandokja@gmail.com', label: 'doandokja@gmail.com', location: 'Remote / GMT+7', availability: 'Open to meaningful research' }
+  contact: { email: 'mailto:doandokja@gmail.com', label: 'doandokja@gmail.com', github: 'https://github.com/doanmanhducz', githubLabel: 'github.com/doanmanhducz', linkedin: 'https://www.linkedin.com/in/doanduc1704/', linkedinLabel: 'linkedin.com/in/doanduc1704' }
 } as const;
 
 // Kept for legacy routes while the homepage now owns the primary navigation.

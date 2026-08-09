@@ -13,7 +13,7 @@ it('defines the approved one-page navigation in visual order', () => {
   ]);
 });
 
-it('keeps modal-ready certificates and a direct contact action in site data', () => {
-  expect(portfolio.certifications).toHaveLength(4);
+it('keeps credentials empty until real certificates are added and exposes contact', () => {
+  expect(portfolio.achievements).toHaveLength(3);
   expect(portfolio.contact.email).toMatch(/^mailto:/);
 });
