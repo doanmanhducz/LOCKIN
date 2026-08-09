@@ -1,14 +1,14 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { portfolio } from '../config/site';
+import { portfolio, site } from '../config/site';
 ---
 <BaseLayout title="Security Research Portfolio" currentPath="/">
   <section class="hero" id="home" aria-labelledby="hero-title">
     <div class="terminal-window">
-      <div class="terminal-titlebar"><span class="traffic"><i></i><i></i><i></i></span><span>yourname@portfolio:~$</span></div>
+      <div class="terminal-titlebar"><span class="traffic"><i></i><i></i><i></i></span><span>{site.terminalIdentity}</span></div>
       <div class="terminal-body">
         <p class="command">$ whoami</p>
-        <h1 id="hero-title"><span class="type-name">Your Name <em>"Alias"</em></span><b aria-hidden="true">_</b></h1>
+        <h1 id="hero-title"><span class="type-name">{site.name} <em>"{site.nickname}"</em></span><b aria-hidden="true">_</b></h1>
         <p class="command">$ cat roles.txt</p>
         <p class="hero-roles">{portfolio.roles}</p>
         <p class="hero-copy">{portfolio.introduction}</p>

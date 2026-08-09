@@ -1,10 +1,10 @@
 export const site = {
-  name: 'Your Name',
-  nickname: 'Alias',
-  terminalIdentity: 'yourname@portfolio:~$',
+  name: 'Doan Manh Duc',
+  nickname: 'doandokja',
+  terminalIdentity: 'doandokja@portfolio:~$',
   summary: 'Security researcher. Builder. Curious by default.',
   cvHref: null,
-  socialLinks: [{ label: 'Email', href: 'mailto:hello@example.com' }],
+  socialLinks: [{ label: 'Email', href: 'mailto:doandokja@gmail.com' }],
   giscus: null
 } as const;
 
@@ -20,7 +20,7 @@ export const portfolioNavigation = [
 
 // Keep repeatable profile content in one place so replacing placeholders is painless.
 export const portfolio = {
-  roles: 'Security Researcher / Offensive Security / Builder',
+  roles: 'ASM / Pentest / Security Researcher',
   introduction: 'I investigate where systems bend, write down what matters, and build quieter ways to make them safer.',
   skillGroups: [
     { title: 'Offensive Research', items: ['Web application security', 'Attack surface mapping', 'Vulnerability validation', 'Responsible disclosure'] },
@@ -47,7 +47,7 @@ export const portfolio = {
     { date: '2026.08.09', title: 'The Work Before the Report', excerpt: 'Research begins before the payload: with attention, context, and a refusal to confuse motion with progress.' },
     { date: '2026.07.22', title: 'Notes on Quiet Systems', excerpt: 'The most interesting behavior often lives in the places that dashboards do not name.' }
   ],
-  contact: { email: 'mailto:hello@example.com', label: 'hello@example.com', location: 'Remote / GMT+7', availability: 'Open to meaningful research' }
+  contact: { email: 'mailto:doandokja@gmail.com', label: 'doandokja@gmail.com', location: 'Remote / GMT+7', availability: 'Open to meaningful research' }
 } as const;
 
 // Kept for legacy routes while the homepage now owns the primary navigation.

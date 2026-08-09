@@ -14,5 +14,5 @@ it('prefixes internal paths with the GitHub Pages base', () => {
 });
 
 it('exposes a terminal identity label for the shared shell', () => {
-  expect(site.terminalIdentity).toBe('yourname@portfolio:~$');
+  expect(site.terminalIdentity).toBe('doandokja@portfolio:~$');
 });
