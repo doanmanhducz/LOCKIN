@@ -1,73 +1,111 @@
 ---
 const { src } = Astro.props;
 ---
-<audio class="background-music" src={src} loop autoplay preload="metadata"></audio>
+<audio class="background-music" src={src} loop preload="auto"></audio>
 <button class="music-toggle" type="button" aria-label="Play background music" aria-pressed="false"><span aria-hidden="true">♫</span></button>
+<section class="sound-gate" data-sound-gate role="dialog" aria-modal="true" aria-labelledby="sound-gate-title" hidden>
+  <div class="sound-gate-panel">
+    <p> SYSTEM AUDIO LOCKED</p>
+    <h2 id="sound-gate-title">Click to enter with sound</h2>
+    <button class="button button-solid" type="button" data-enable-audio>ENTER // ENABLE AUDIO</button>
+    <p class="sound-gate-error" data-audio-error hidden>Audio unavailable. Continue without sound.</p>
+    <button class="sound-gate-continue" type="button" data-continue-silent hidden>Continue without sound</button>
+  </div>
+</section>
 
 <script>
   const audio = document.querySelector<HTMLAudioElement>('.background-music');
   const button = document.querySelector<HTMLButtonElement>('.music-toggle');
+  const gate = document.querySelector<HTMLElement>('[data-sound-gate]');
+  const enableButton = document.querySelector<HTMLButtonElement>('[data-enable-audio]');
+  const continueButton = document.querySelector<HTMLButtonElement>('[data-continue-silent]');
+  const errorMessage = document.querySelector<HTMLElement>('[data-audio-error]');
 
-  if (audio && button) {
-    const preferenceKey = 'doandokja-background-music';
-    const volumeKey = 'doandokja-background-music-volume';
-    let preference: 'on' | 'off' | null = null;
+  if (audio && button && gate && enableButton && continueButton && errorMessage) {
+    const enabledKey = 'musicEnabled';
+    const volumeKey = 'musicVolume';
+    let enabled: boolean | null = null;
 
     try {
-      preference = localStorage.getItem(preferenceKey) as 'on' | 'off' | null;
-      const storedVolume = Number(localStorage.getItem(volumeKey));
-      audio.volume = Number.isFinite(storedVolume) && storedVolume >= 0 && storedVolume <= 1 ? storedVolume : 0.25;
+      const saved = localStorage.getItem(enabledKey);
+      enabled = saved === null ? null : saved === 'true';
+      const savedVolume = Number(localStorage.getItem(volumeKey));
+      audio.volume = Number.isFinite(savedVolume) && savedVolume >= 0 && savedVolume <= 1 ? savedVolume : 0.25;
     } catch {
       audio.volume = 0.25;
     }
+    audio.muted = false;
 
     const updateButton = (playing: boolean) => {
       button.classList.toggle('is-playing', playing);
       button.setAttribute('aria-pressed', String(playing));
       button.setAttribute('aria-label', playing ? 'Pause background music' : 'Play background music');
     };
-    const store = (nextPreference: 'on' | 'off') => {
-      preference = nextPreference;
+    const persist = (next: boolean) => {
+      enabled = next;
       try {
-        localStorage.setItem(preferenceKey, nextPreference);
+        localStorage.setItem(enabledKey, String(next));
         localStorage.setItem(volumeKey, String(audio.volume));
       } catch {
-        // Storage can be unavailable in privacy-restricted browser sessions.
+        // Private browsing can block persistent storage.
       }
+    };
+    const dismissGate = () => {
+      gate.classList.add('is-leaving');
+      setTimeout(() => gate.remove(), 250);
+    };
+    const showGate = () => {
+      gate.hidden = false;
+      enableButton.focus();
+    };
+    const showAudioError = () => {
+      errorMessage.hidden = false;
+      continueButton.hidden = false;
+      enableButton.hidden = true;
     };
     const play = async () => {
       try {
         await audio.play();
-        store('on');
+        persist(true);
         updateButton(true);
+        return true;
       } catch {
         updateButton(false);
+        return false;
       }
     };
-    const toggleMusic = () => {
-      if (audio.paused) void play();
-      else {
+    const toggleMusic = async () => {
+      if (!audio.paused) {
         audio.pause();
-        store('off');
+        persist(false);
         updateButton(false);
+        return;
       }
+      if (!(await play())) showGate();
     };
-    const attemptResume = (event?: Event) => {
-      if (event?.target instanceof Node && button.contains(event.target)) return;
-      if (preference !== 'off') void play();
+    const enableAudio = async () => {
+      if (await play()) dismissGate();
+      else showAudioError();
+    };
+    const continueSilently = () => {
+      persist(false);
+      dismissGate();
     };
     const cleanup = () => {
-      document.removeEventListener('pointerdown', attemptResume);
-      document.removeEventListener('keydown', attemptResume);
       button.removeEventListener('click', toggleMusic);
+      enableButton.removeEventListener('click', enableAudio);
+      continueButton.removeEventListener('click', continueSilently);
       document.removeEventListener('astro:before-swap', cleanup);
     };
 
     updateButton(false);
-    if (preference !== 'off') void play();
     button.addEventListener('click', toggleMusic);
-    document.addEventListener('pointerdown', attemptResume, { once: true, passive: true });
-    document.addEventListener('keydown', attemptResume, { once: true });
+    enableButton.addEventListener('click', enableAudio);
+    continueButton.addEventListener('click', continueSilently);
     document.addEventListener('astro:before-swap', cleanup, { once: true });
+
+    if (enabled !== false) void play().then((didPlay) => {
+      if (!didPlay) showGate();
+    });
   }
 </script>

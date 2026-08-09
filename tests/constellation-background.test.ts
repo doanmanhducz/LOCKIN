@@ -10,8 +10,8 @@ it('mounts one shared constellation canvas with motion safeguards', () => {
   expect(component).toContain('prefers-reduced-motion');
   expect(component).toContain('visibilitychange');
   expect(component).toContain('devicePixelRatio');
-  expect(component).toContain('const connectionDistance = () => 180');
-  expect(component).toContain('* 0.26');
+  expect(component).toContain('const connectionDistance = () => 200');
+  expect(component).toContain('* 0.32');
 });
 
 it('keeps the constellation and scanlines behind readable content', () => {
@@ -28,13 +28,15 @@ it('mounts a base-path-safe, user-controlled background music player', () => {
 
   expect(layout).toContain('<MusicControl src={sitePath(\'/audio/TimEm.mp3\')} />');
   expect(component).toContain('loop');
-  expect(component).toContain('autoplay');
-  expect(component).toContain('preload="metadata"');
+  expect(component).toContain('preload="auto"');
   expect(component).toContain('localStorage');
   expect(component).toContain('Play background music');
   expect(component).toContain('Pause background music');
   expect(component).toContain('audio.volume = 0.25');
-  expect(component).toContain("if (preference !== 'off') void play();");
+  expect(component).toContain("audio.muted = false");
+  expect(component).toContain('SYSTEM AUDIO LOCKED');
+  expect(component).toContain('ENTER // ENABLE AUDIO');
+  expect(component).toContain('Audio unavailable. Continue without sound.');
 });
 
 it('does not override fixed controls while placing content above the canvas', () => {
