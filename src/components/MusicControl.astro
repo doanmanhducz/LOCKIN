@@ -1,0 +1,71 @@
+---
+const { src } = Astro.props;
+---
+<audio class="background-music" src={src} loop preload="metadata"></audio>
+<button class="music-toggle" type="button" aria-label="Play background music" aria-pressed="false"><span aria-hidden="true">♫</span></button>
+
+<script>
+  const audio = document.querySelector<HTMLAudioElement>('.background-music');
+  const button = document.querySelector<HTMLButtonElement>('.music-toggle');
+
+  if (audio && button) {
+    const preferenceKey = 'doandokja-background-music';
+    const volumeKey = 'doandokja-background-music-volume';
+    let preference: 'on' | 'off' | null = null;
+
+    try {
+      preference = localStorage.getItem(preferenceKey) as 'on' | 'off' | null;
+      const storedVolume = Number(localStorage.getItem(volumeKey));
+      audio.volume = Number.isFinite(storedVolume) && storedVolume >= 0 && storedVolume <= 1 ? storedVolume : 0.25;
+    } catch {
+      audio.volume = 0.25;
+    }
+
+    const updateButton = (playing: boolean) => {
+      button.classList.toggle('is-playing', playing);
+      button.setAttribute('aria-pressed', String(playing));
+      button.setAttribute('aria-label', playing ? 'Pause background music' : 'Play background music');
+    };
+    const store = (nextPreference: 'on' | 'off') => {
+      preference = nextPreference;
+      try {
+        localStorage.setItem(preferenceKey, nextPreference);
+        localStorage.setItem(volumeKey, String(audio.volume));
+      } catch {
+        // Storage can be unavailable in privacy-restricted browser sessions.
+      }
+    };
+    const play = async () => {
+      try {
+        await audio.play();
+        store('on');
+        updateButton(true);
+      } catch {
+        updateButton(false);
+      }
+    };
+    const toggleMusic = () => {
+      if (audio.paused) void play();
+      else {
+        audio.pause();
+        store('off');
+        updateButton(false);
+      }
+    };
+    const attemptResume = () => {
+      if (preference !== 'off') void play();
+    };
+    const cleanup = () => {
+      document.removeEventListener('pointerdown', attemptResume);
+      document.removeEventListener('keydown', attemptResume);
+      button.removeEventListener('click', toggleMusic);
+      document.removeEventListener('astro:before-swap', cleanup);
+    };
+
+    updateButton(false);
+    button.addEventListener('click', toggleMusic);
+    document.addEventListener('pointerdown', attemptResume, { once: true, passive: true });
+    document.addEventListener('keydown', attemptResume, { once: true });
+    document.addEventListener('astro:before-swap', cleanup, { once: true });
+  }
+</script>

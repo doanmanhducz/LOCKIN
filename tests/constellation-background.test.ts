@@ -10,6 +10,8 @@ it('mounts one shared constellation canvas with motion safeguards', () => {
   expect(component).toContain('prefers-reduced-motion');
   expect(component).toContain('visibilitychange');
   expect(component).toContain('devicePixelRatio');
+  expect(component).toContain('const connectionDistance = () => 180');
+  expect(component).toContain('* 0.26');
 });
 
 it('keeps the constellation and scanlines behind readable content', () => {
@@ -18,4 +20,17 @@ it('keeps the constellation and scanlines behind readable content', () => {
   expect(css).toContain('.constellation-canvas,.scanlines{position:fixed;inset:0');
   expect(css).toContain('.scanlines{z-index:1');
   expect(css).toContain('rgba(0,255,127,.016)');
+});
+
+it('mounts a base-path-safe, user-controlled background music player', () => {
+  const layout = readFileSync(new URL('../src/layouts/BaseLayout.astro', import.meta.url), 'utf8');
+  const component = readFileSync(new URL('../src/components/MusicControl.astro', import.meta.url), 'utf8');
+
+  expect(layout).toContain('<MusicControl src={sitePath(\'/audio/TimEm.mp3\')} />');
+  expect(component).toContain('loop');
+  expect(component).toContain('preload="metadata"');
+  expect(component).toContain('localStorage');
+  expect(component).toContain('Play background music');
+  expect(component).toContain('Pause background music');
+  expect(component).toContain('audio.volume = 0.25');
 });

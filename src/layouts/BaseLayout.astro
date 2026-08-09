@@ -3,6 +3,7 @@ import '../styles/global.css';
 import { portfolioNavigation, site } from '../config/site';
 import { sitePath } from '../lib/paths';
 import ConstellationBackground from '../components/ConstellationBackground.astro';
+import MusicControl from '../components/MusicControl.astro';
 const { currentPath = '/' } = Astro.props;
 ---
 <!doctype html>
@@ -37,6 +38,7 @@ const { currentPath = '/' } = Astro.props;
     </header>
     <main id="content"><slot /></main>
     <footer class="site-footer"><p>Try being a "Dokja" in someone else's story, just once. — Doan Dokja, 2026</p></footer>
+    <MusicControl src={sitePath('/audio/TimEm.mp3')} />
     <button class="back-to-top" type="button" aria-label="Back to top">↑</button>
     <script>
       const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
