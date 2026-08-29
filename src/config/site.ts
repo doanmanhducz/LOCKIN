@@ -11,6 +11,7 @@ export const site = {
 export const portfolioNavigation = [
   { label: 'Home', href: '#home' },
   { label: 'Skills', href: '#skills' },
+  { label: 'Research', href: '#research' },
   { label: 'Certifications', href: '#certifications' },
   { label: 'Projects', href: '#projects' },
   { label: 'Write-Ups', href: '/writeups' },

@@ -5,6 +5,7 @@ it('defines the approved one-page navigation in visual order', () => {
   expect(portfolioNavigation.map((item) => item.href)).toEqual([
     '#home',
     '#skills',
+    '#research',
     '#certifications',
     '#projects',
     '/writeups',

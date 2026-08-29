@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { portfolio, site } from '../config/site';
 import { sitePath } from '../lib/paths';
+import { cveRecords } from '../data/cves';
 ---
 <BaseLayout title="Security Research Portfolio" currentPath="/">
   <section class="hero" id="home" aria-labelledby="hero-title">
@@ -21,6 +22,11 @@ import { sitePath } from '../lib/paths';
   <section class="section reveal" id="skills" aria-labelledby="skills-title">
     <header class="section-title"><p>$ ls ~/skills</p><h2 id="skills-title">Skills</h2><i></i></header>
     <div class="skills-grid">{portfolio.skillGroups.map((group) => <article class:list={['skill-card', { others: group.title === 'Others' }]}><h3>{group.title}</h3><ul>{group.items.map((item) => <li>{item}</li>)}</ul></article>)}</div>
+  </section>
+
+  <section class="section reveal" id="research" aria-labelledby="research-title">
+    <header class="section-title"><p>$ cat cves.log</p><h2 id="research-title">Research</h2><i></i></header>
+    <div class="cve-table-wrap"><table class="cve-table"><thead><tr><th>CVE Number</th><th>Program</th></tr></thead><tbody>{cveRecords.length > 0 ? cveRecords.map((record) => <tr><td>{record.cve}</td><td>{record.program}</td></tr>) : <tr><td colspan="2" class="empty-state">No CVE records indexed yet.</td></tr>}</tbody></table></div>
   </section>
 
   <section class="section reveal" id="certifications" aria-labelledby="certifications-title">
