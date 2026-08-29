@@ -1,7 +1,7 @@
 export const site = {
   name: 'Doan Manh Duc',
-  nickname: 'doandokja',
-  terminalIdentity: 'doandokja@portfolio:~$',
+  nickname: 'dokjadoan',
+  terminalIdentity: 'dokjadoan@portfolio:~$',
   summary: 'Security researcher. Builder. Curious by default.',
   cvHref: null,
   socialLinks: [{ label: 'Email', href: 'mailto:doandokja@gmail.com' }],

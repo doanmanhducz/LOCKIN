@@ -10,7 +10,7 @@ The deployment remains a GitHub Pages project site at `/LOCKIN/`. A shared path 
 
 ## About Voice
 
-The opening states that Doan Manh Duc, also known as Doan Dokja / doanmanhducz, works where AI security research meets practical offensive thinking. The text is short, first-person in spirit, and avoids generic portfolio claims. The only public contact is the existing email link; no telephone number or unredacted CV is published.
+The opening states that Doan Manh Duc, also known as Dokja Doan / doanmanhducz, works where AI security research meets practical offensive thinking. The text is short, first-person in spirit, and avoids generic portfolio claims. The only public contact is the existing email link; no telephone number or unredacted CV is published.
 
 ## Career Path
 
