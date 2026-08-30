@@ -42,8 +42,8 @@ export const portfolio = {
     { venue: 'RIVF 2025', title: 'Phishing Website Detection via Multimodal Learning and Retrieval-Augmented Reasoning', description: 'Research on multimodal phishing detection with retrieval-augmented reasoning.', url: 'https://ieeexplore.ieee.org/document/11365186', linkLabel: 'Read on IEEE Xplore' }
   ],
   writeUps: [
-    { title: 'CVE-2026-61663 — django-cms', type: 'CVE write-up', excerpt: 'A security write-up for CVE-2026-61663 in django-cms.' },
-    { title: 'CVE-2026-61726 — TandoorRecipes/recipes', type: 'CVE write-up', excerpt: 'A security write-up for CVE-2026-61726 in TandoorRecipes/recipes.' }
+    { title: 'CVE-2026-61663 — Missing Authorization in render_object_structure', type: 'CVE write-up', excerpt: 'A security write-up for CVE-2026-61663 in django-cms.' },
+    { title: 'CVE-2026-61726 — Private Recipe Bypass via Step API', type: 'CVE write-up', excerpt: 'A security write-up for CVE-2026-61726 in TandoorRecipes/recipes.' }
   ],
   blog: [
     { date: '2026.08.09', title: 'The Work Before the Report', excerpt: 'Research begins before the payload: with attention, context, and a refusal to confuse motion with progress.' },
