@@ -46,8 +46,8 @@ export const portfolio = {
     { title: 'CVE-2026-61726 — Private Recipe Bypass via Step API', type: 'CVE write-up', excerpt: 'A security write-up for CVE-2026-61726 in TandoorRecipes/recipes.' }
   ],
   blog: [
-    { date: '2026.08.09', title: 'The Work Before the Report', excerpt: 'Research begins before the payload: with attention, context, and a refusal to confuse motion with progress.' },
-    { date: '2026.07.22', title: 'Notes on Quiet Systems', excerpt: 'The most interesting behavior often lives in the places that dashboards do not name.' }
+    { date: '2026.08.30', title: 'The First Paper, the First Ticket Out', excerpt: 'A story about the first paper getting accepted and the first flight abroad to present it.' },
+    { date: '2026.08.30', title: 'Upcoming December 2026', excerpt: 'A quick note on what is coming in December 2026.' }
   ],
   contact: { email: 'mailto:doandokja@gmail.com', label: 'doandokja@gmail.com', github: 'https://github.com/doanmanhducz', githubLabel: 'github.com/doanmanhducz', linkedin: 'https://www.linkedin.com/in/doanduc1704/', linkedinLabel: 'linkedin.com/in/doanduc1704' }
 } as const;
