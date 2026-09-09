@@ -1,0 +1,39 @@
+/* Hoa Linh theme layer: layout and component dimensions stay unchanged. */
+:root {
+  --bg: #160d24;
+  --top: #28133d;
+  --accent: #ffb9d7;
+  --accent-dim: #d7a8f4;
+  --text: #fff6f0;
+  --muted: #c3afc9;
+  --faint: #8d7899;
+  --panel: #21112ed9;
+  --border: #765a8e;
+  --line: #49365a;
+  --red: #ff9cae;
+  --yellow: #f4d39c;
+  --window: #9ee6c1;
+}
+
+body { background: radial-gradient(ellipse 80% 30% at 50% 0, #3a1b58, var(--bg) 72%); }
+.constellation-canvas, .flower-canvas { position: fixed; inset: 0; pointer-events: none; }
+.constellation-canvas { z-index: 0; opacity: .42; }
+.flower-canvas { z-index: 0; opacity: .84; }
+.scanlines { background: repeating-linear-gradient(to bottom, transparent 0, transparent 2px, rgba(255,185,215,.014) 3px, transparent 4px); }
+.site-header { background: #1b1026d9; }
+.site-nav a:after { background: var(--accent); box-shadow: 0 0 8px #ffb9d788; }
+.terminal-window, .skill-card, .project-card, .cert-category, .contact-card, .post-card, .publication-card { border-color: var(--border); background: var(--panel); box-shadow: 0 28px 70px #08030f99, 0 0 32px #ffb9d71a; }
+.button:hover, .project-card:hover, .post-card:hover, .publication-card:hover { box-shadow: 0 10px 24px #ffb9d72b; }
+.certificate-art { background: linear-gradient(135deg, #3a1c50, #1a1027); border-color: var(--line); }
+.certificate-art.signal { background: repeating-linear-gradient(45deg, #241335 0 8px, #301845 8px 9px); }
+.certificate-art.grid, .post-cover { background-image: linear-gradient(#ffb9d718 1px, transparent 1px), linear-gradient(90deg, #ffb9d718 1px, transparent 1px); }
+.certificate-art.terminal, .dialog-art { background: linear-gradient(145deg, #1a1027, #48235c); }
+.cert-card, .article code, .article pre, .cve-table-wrap, .cve-controls select { background: #1b1028d9; border-color: var(--line); }
+.article blockquote { border-color: var(--accent-dim); }
+.certificate-dialog { background: #21112ef7; border-color: var(--border); }
+.back-to-top { color: #24102f; }
+
+@media (prefers-reduced-motion: reduce) {
+  .constellation-canvas { opacity: .2; }
+  .flower-canvas { opacity: .68; }
+}

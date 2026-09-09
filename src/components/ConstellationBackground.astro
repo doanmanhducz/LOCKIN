@@ -1,101 +1,40 @@
 <canvas class="constellation-canvas" aria-hidden="true"></canvas>
+<canvas class="flower-canvas" aria-hidden="true"></canvas>
 
 <script>
   const canvas = document.querySelector<HTMLCanvasElement>('.constellation-canvas');
+  const flowerCanvas = document.querySelector<HTMLCanvasElement>('.flower-canvas');
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  let frameId = 0;
+  let constellationFrameId = 0;
+  let visible = !document.hidden;
 
   if (canvas) {
     const context = canvas.getContext('2d');
-    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-    let frameId = 0;
-    let visible = !document.hidden;
     let nodes: Array<{ x: number; y: number; vx: number; vy: number; radius: number; alpha: number }> = [];
-
     const nodeCount = () => innerWidth <= 480 ? 22 : innerWidth <= 900 ? 35 : 48;
     const connectionDistance = () => 200;
-
-    const createNodes = () => {
-      nodes = Array.from({ length: nodeCount() }, () => {
-        const speed = 0.1 + Math.random() * 0.18;
-        const angle = Math.random() * Math.PI * 2;
-        return { x: Math.random() * innerWidth, y: Math.random() * innerHeight, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, radius: 1 + Math.random(), alpha: 0.5 + Math.random() * 0.2 };
-      });
-    };
-
-    const resize = () => {
-      const dpr = Math.min(devicePixelRatio || 1, 2);
-      canvas.width = Math.round(innerWidth * dpr);
-      canvas.height = Math.round(innerHeight * dpr);
-      canvas.style.width = `${innerWidth}px`;
-      canvas.style.height = `${innerHeight}px`;
-      context?.setTransform(dpr, 0, 0, dpr, 0, 0);
-      createNodes();
-      draw(false);
-    };
-
-    const draw = (move: boolean) => {
-      if (!context) return;
-      context.clearRect(0, 0, innerWidth, innerHeight);
-      const distanceLimit = connectionDistance();
-      for (const node of nodes) {
-        if (move) {
-          node.x += node.vx;
-          node.y += node.vy;
-          if (node.x <= 0 || node.x >= innerWidth) node.vx *= -1;
-          if (node.y <= 0 || node.y >= innerHeight) node.vy *= -1;
-          node.x = Math.max(0, Math.min(innerWidth, node.x));
-          node.y = Math.max(0, Math.min(innerHeight, node.y));
-        }
-      }
-      for (let index = 0; index < nodes.length; index += 1) {
-        for (let otherIndex = index + 1; otherIndex < nodes.length; otherIndex += 1) {
-          const node = nodes[index];
-          const other = nodes[otherIndex];
-          const distance = Math.hypot(node.x - other.x, node.y - other.y);
-          if (distance > distanceLimit) continue;
-          context.beginPath();
-          context.moveTo(node.x, node.y);
-          context.lineTo(other.x, other.y);
-          context.strokeStyle = `rgba(0, 255, 127, ${(1 - distance / distanceLimit) * 0.32})`;
-          context.lineWidth = 0.8;
-          context.stroke();
-        }
-      }
-      for (const node of nodes) {
-        context.beginPath();
-        context.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
-        context.fillStyle = `rgba(0, 255, 127, ${node.alpha})`;
-        context.fill();
-      }
-    };
-
-    const animate = () => {
-      if (!visible || reducedMotion.matches) return;
-      draw(true);
-      frameId = requestAnimationFrame(animate);
-    };
-    const visibilityChange = () => {
-      visible = !document.hidden;
-      cancelAnimationFrame(frameId);
-      if (visible && !reducedMotion.matches) frameId = requestAnimationFrame(animate);
-    };
-    const motionChange = () => {
-      cancelAnimationFrame(frameId);
-      draw(false);
-      if (!reducedMotion.matches && visible) frameId = requestAnimationFrame(animate);
-    };
-    const cleanup = () => {
-      cancelAnimationFrame(frameId);
-      removeEventListener('resize', resize);
-      document.removeEventListener('visibilitychange', visibilityChange);
-      reducedMotion.removeEventListener('change', motionChange);
-      document.removeEventListener('astro:before-swap', cleanup);
-    };
-
-    resize();
-    if (!reducedMotion.matches) frameId = requestAnimationFrame(animate);
-    addEventListener('resize', resize, { passive: true });
-    document.addEventListener('visibilitychange', visibilityChange);
-    reducedMotion.addEventListener('change', motionChange);
-    document.addEventListener('astro:before-swap', cleanup, { once: true });
+    const createNodes = () => { nodes = Array.from({ length: nodeCount() }, () => { const speed = 0.1 + Math.random() * 0.18; const angle = Math.random() * Math.PI * 2; return { x: Math.random() * innerWidth, y: Math.random() * innerHeight, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, radius: 1 + Math.random(), alpha: 0.5 + Math.random() * 0.2 }; }); };
+    const draw = (move: boolean) => { if (!context) return; context.clearRect(0, 0, innerWidth, innerHeight); const distanceLimit = connectionDistance(); for (const node of nodes) { if (move) { node.x += node.vx; node.y += node.vy; if (node.x <= 0 || node.x >= innerWidth) node.vx *= -1; if (node.y <= 0 || node.y >= innerHeight) node.vy *= -1; } } for (let index = 0; index < nodes.length; index += 1) for (let otherIndex = index + 1; otherIndex < nodes.length; otherIndex += 1) { const node = nodes[index]; const other = nodes[otherIndex]; const distance = Math.hypot(node.x - other.x, node.y - other.y); if (distance <= distanceLimit) { context.beginPath(); context.moveTo(node.x, node.y); context.lineTo(other.x, other.y); context.strokeStyle = `rgba(224, 190, 255, ${(1 - distance / distanceLimit) * 0.32})`; context.lineWidth = 0.8; context.stroke(); } } for (const node of nodes) { context.beginPath(); context.arc(node.x, node.y, node.radius, 0, Math.PI * 2); context.fillStyle = `rgba(255, 185, 215, ${node.alpha})`; context.fill(); } };
+    const animate = () => { if (!visible || reducedMotion.matches) return; draw(true); constellationFrameId = requestAnimationFrame(animate); };
+    const resize = () => { const dpr = Math.min(devicePixelRatio || 1, 2); canvas.width = Math.round(innerWidth * dpr); canvas.height = Math.round(innerHeight * dpr); canvas.style.width = `${innerWidth}px`; canvas.style.height = `${innerHeight}px`; context?.setTransform(dpr, 0, 0, dpr, 0, 0); createNodes(); draw(false); };
+    resize(); addEventListener('resize', resize, { passive: true }); canvas.addEventListener('resume', () => { if (!reducedMotion.matches && visible) constellationFrameId = requestAnimationFrame(animate); }); if (!reducedMotion.matches) constellationFrameId = requestAnimationFrame(animate);
   }
+
+  if (flowerCanvas) {
+    const context = flowerCanvas.getContext('2d');
+    let flowers: Array<{ x: number; y: number; size: number; speed: number; drift: number; angle: number; spin: number; alpha: number }> = [];
+    const flowerCount = () => innerWidth <= 480 ? 48 : innerWidth <= 900 ? 68 : 92;
+    const createFlowers = () => { flowers = Array.from({ length: flowerCount() }, () => ({ x: Math.random() * innerWidth, y: Math.random() * innerHeight, size: 3 + Math.random() * 7, speed: 0.12 + Math.random() * 0.2, drift: (Math.random() - 0.5) * 0.22, angle: Math.random() * Math.PI * 2, spin: (Math.random() - 0.5) * 0.008, alpha: 0.16 + Math.random() * 0.25 })); };
+    const draw = (move: boolean) => { if (!context) return; context.clearRect(0, 0, innerWidth, innerHeight); for (const flower of flowers) { if (move) { flower.y += flower.speed; flower.x += flower.drift; flower.angle += flower.spin; if (flower.y > innerHeight + 20) { flower.y = -20; flower.x = Math.random() * innerWidth; } } context.save(); context.translate(flower.x, flower.y); context.rotate(flower.angle); context.globalAlpha = flower.alpha; context.fillStyle = '#ffb9d7'; for (let petal = 0; petal < 5; petal += 1) { context.rotate((Math.PI * 2) / 5); context.beginPath(); context.ellipse(0, flower.size * 0.72, flower.size * 0.32, flower.size * 0.72, 0, 0, Math.PI * 2); context.fill(); } context.fillStyle = '#f4d39c'; context.beginPath(); context.arc(0, 0, Math.max(0.8, flower.size * 0.16), 0, Math.PI * 2); context.fill(); context.restore(); } };
+    const animate = () => { if (!visible || reducedMotion.matches) return; draw(true); frameId = requestAnimationFrame(animate); };
+    const resize = () => { const dpr = Math.min(devicePixelRatio || 1, 2); flowerCanvas.width = Math.round(innerWidth * dpr); flowerCanvas.height = Math.round(innerHeight * dpr); flowerCanvas.style.width = `${innerWidth}px`; flowerCanvas.style.height = `${innerHeight}px`; context?.setTransform(dpr, 0, 0, dpr, 0, 0); createFlowers(); draw(false); };
+    resize(); addEventListener('resize', resize, { passive: true }); flowerCanvas.addEventListener('resume', () => { if (!reducedMotion.matches && visible) frameId = requestAnimationFrame(animate); }); if (!reducedMotion.matches) frameId = requestAnimationFrame(animate);
+  }
+
+  const visibilityChange = () => { visible = !document.hidden; cancelAnimationFrame(frameId); cancelAnimationFrame(constellationFrameId); if (visible) { flowerCanvas?.dispatchEvent(new Event('resume')); canvas?.dispatchEvent(new Event('resume')); } };
+  const motionChange = () => { cancelAnimationFrame(frameId); cancelAnimationFrame(constellationFrameId); if (!reducedMotion.matches) { flowerCanvas?.dispatchEvent(new Event('resume')); canvas?.dispatchEvent(new Event('resume')); } };
+  document.addEventListener('visibilitychange', visibilityChange);
+  reducedMotion.addEventListener('change', motionChange);
+  document.addEventListener('astro:before-swap', () => { cancelAnimationFrame(frameId); cancelAnimationFrame(constellationFrameId); document.removeEventListener('visibilitychange', visibilityChange); reducedMotion.removeEventListener('change', motionChange); }, { once: true });
 </script>
