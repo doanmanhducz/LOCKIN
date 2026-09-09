@@ -13,6 +13,7 @@ it('mounts a shared petal background with motion safeguards', () => {
   expect(component).toContain('if (reduced.matches) return');
   expect(component).toContain("removeEventListener('change', populate)");
   expect(component).toContain('aria-hidden="true"');
+  expect(component).toContain('12 + i * 17 % 76');
 });
 
 it('keeps the constellation and scanlines behind readable content', () => {
