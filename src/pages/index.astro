@@ -1,4 +1,4 @@
----
+﻿---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { portfolio, site } from '../config/site';
 import { sitePath } from '../lib/paths';
@@ -27,8 +27,8 @@ import { cveRecords, cveNumber } from '../data/cves';
 
   <section class="section reveal" id="research" aria-labelledby="research-title">
     <header class="section-title"><p>$ cat cves.log</p><h2 id="research-title">Research</h2><i></i></header>
-    <div class="cve-controls"><label class="mono">SORT <select id="cve-sort"><option value="oldest-first">Oldest → Newest</option><option value="severity-asc">Moderate → Critical</option><option value="severity-desc">Critical → Moderate</option></select></label></div>
-    <div class="cve-table-wrap"><table class="cve-table"><thead><tr><th>CVE Number</th><th>Program</th><th>Severity</th></tr></thead><tbody id="cve-body">{[...cveRecords].sort((a, b) => cveNumber(a.cve) - cveNumber(b.cve)).map((record) => <tr data-cve={record.cve} data-severity={record.severity}><td><a href={sitePath(postPath('writeup', record.writeup))}>{record.cve}</a></td><td>{record.program}</td><td><span class:list={['severity', `severity-${record.severity.toLowerCase()}`]}>{record.severity} {record.score}</span></td></tr>)}</tbody></table></div>
+    <div class="cve-controls"><label class="mono">SORT <select id="cve-sort"><option value="cve-asc">CVE: Oldest to Newest</option><option value="program-asc">Program: A to Z</option><option value="program-desc">Program: Z to A</option><option value="severity-asc">Severity: Moderate to Critical</option><option value="severity-desc">Severity: Critical to Moderate</option></select></label></div>
+    <div class="cve-table-wrap"><table class="cve-table"><thead><tr><th>CVE Number</th><th>Program</th><th>Severity</th></tr></thead><tbody id="cve-body">{[...cveRecords].sort((a, b) => cveNumber(a.cve) - cveNumber(b.cve)).map((record) => <tr data-cve={record.cve} data-program={record.program} data-severity={record.severity}><td>{record.writeup ? <a href={sitePath(postPath('writeup', record.writeup))}>{record.cve}</a> : <span class="pending-cve">{record.cve}</span>}</td><td>{record.program}</td><td><span class:list={['severity', `severity-${record.severity.toLowerCase()}`]}>{record.severity} {record.score}</span></td></tr>)}</tbody></table></div>
   </section>
 
   <section class="section reveal" id="certifications" aria-labelledby="certifications-title">
@@ -43,7 +43,7 @@ import { cveRecords, cveNumber } from '../data/cves';
 
   <section class="section reveal" id="publications" aria-labelledby="publications-title">
     <header class="section-title"><p>$ cat publications.log</p><h2 id="publications-title">Publications</h2><i></i></header>
-    <div class="publication-grid">{portfolio.publications.map((publication) => <article class="publication-card"><p class="publication-venue">{publication.venue}</p><h3>{publication.title}</h3><p>{publication.description}</p><a class="button button-outline" href={publication.url.startsWith('/') ? sitePath(publication.url) : publication.url} target="_blank" rel="noreferrer">{publication.linkLabel} ↗</a></article>)}</div>
+    <div class="publication-grid">{portfolio.publications.map((publication) => <article class="publication-card"><p class="publication-venue">{publication.venue}</p><h3>{publication.title}</h3><p>{publication.description}</p><a class="button button-outline" href={publication.url.startsWith('/') ? sitePath(publication.url) : publication.url} target="_blank" rel="noreferrer">{publication.linkLabel} â†—</a></article>)}</div>
   </section>
 
   <section class="section contact-section reveal" id="contact" aria-labelledby="contact-title">
@@ -61,7 +61,7 @@ import { cveRecords, cveNumber } from '../data/cves';
   const cveSort = document.querySelector<HTMLSelectElement>('#cve-sort');
   const cveBody = document.querySelector<HTMLElement>('#cve-body');
   const severityRank: Record<string, number> = { Low: 1, Moderate: 2, High: 3, Critical: 4 };
-  const cveNumber = (cve: string) => Number(cve.split('-').pop() ?? 0);
+  const cveNumber = (cve: string) => { const match = cve.match(/-(\d+)$/); return match ? Number(match[1]) : Number.MAX_SAFE_INTEGER; };
   const applyCveSort = () => {
     if (!cveSort || !cveBody) return;
     const mode = cveSort.value;
@@ -71,6 +71,10 @@ import { cveRecords, cveNumber } from '../data/cves';
       const numB = cveNumber(b.dataset.cve ?? '');
       const rankA = severityRank[a.dataset.severity ?? ''] ?? 0;
       const rankB = severityRank[b.dataset.severity ?? ''] ?? 0;
+      const programA = a.dataset.program ?? '';
+      const programB = b.dataset.program ?? '';
+      if (mode === 'program-asc') return programA.localeCompare(programB) || numA - numB;
+      if (mode === 'program-desc') return programB.localeCompare(programA) || numA - numB;
       if (mode === 'severity-asc') return rankA - rankB || numA - numB;
       if (mode === 'severity-desc') return rankB - rankA || numA - numB;
       return numA - numB;
