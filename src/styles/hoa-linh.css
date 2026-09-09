@@ -1,39 +1,114 @@
-/* Hoa Linh theme layer: layout and component dimensions stay unchanged. */
+/* Spirit Blossom visual layer. Content geometry inherits from global.css. */
 :root {
-  --bg: #160d24;
-  --top: #28133d;
-  --accent: #ffb9d7;
-  --accent-dim: #d7a8f4;
-  --text: #fff6f0;
-  --muted: #c3afc9;
-  --faint: #8d7899;
-  --panel: #21112ed9;
-  --border: #765a8e;
-  --line: #49365a;
-  --red: #ff9cae;
-  --yellow: #f4d39c;
-  --window: #9ee6c1;
+  color-scheme: dark;
+  --bg:#101321; --top:#202943; --accent:#f2b9d5; --accent-dim:#abdcd9;
+  --text:#f6eef7; --muted:#c3bbcf; --faint:#aba0b9;
+  --panel:#171b2be8; --border:#786786; --line:#39354e;
+  --red:#ffa3b5; --yellow:#efcf98; --window:#a6ddd3;
+  --spirit-gold:#cfb58a; --spirit-jade:#abdcd9;
+}
+body { background:radial-gradient(ellipse at 0 40%,#28203980,transparent 45%),radial-gradient(ellipse at 100% 75%,#17353d66,transparent 40%),var(--bg); }
+.constellation-canvas,.flower-canvas,.scanlines { display:none; }
+.site-header { background:#101321d9; border-bottom-color:#cfb58a40; backdrop-filter:blur(18px); }
+.brand { color:var(--accent); text-shadow:0 0 24px #efb1cf33; }
+.site-nav a:after { background:var(--spirit-gold); box-shadow:0 0 12px #cfb58a50; }
+.hero { position:relative; isolation:isolate; background-image:linear-gradient(0deg,var(--bg) 0%,#10132115 40%),linear-gradient(90deg,#10132144,transparent),var(--art-realm); background-size:cover; background-position:center; }
+.hero::before { content:''; position:absolute; inset:0; z-index:-1; background:radial-gradient(ellipse at 50% 55%,#12152444,transparent 60%); pointer-events:none; }
+.terminal-window { position:relative; border-color:#d7b8cc77; background:linear-gradient(135deg,#182131d9,#1e182dd1); box-shadow:0 25px 90px #070b1c80,inset 0 0 50px #b6ceeb06; backdrop-filter:blur(9px); }
+.terminal-window::after { content:''; position:absolute; inset:7px; border:1px solid #cfb58a21; border-radius:9px; pointer-events:none; }
+.terminal-titlebar { color:var(--muted); background:#c4b9d207; border-color:#cfb58a26; }
+.traffic i { opacity:.8; box-shadow:0 0 9px #efb9d322; }
+.hero h1 { color:#f8d8e8; text-shadow:0 0 32px #f2b9d524; }
+.hero h1 em { color:#bfe7e2; }
+.hero h1 b { color:var(--spirit-gold); }
+.command,.section-title>p { color:var(--spirit-jade); }
+.button { border-color:#d1b59a99; background:#171b2b55; }
+.button-solid { color:#261b2c; background:linear-gradient(120deg,#f2c4dd,#dbbddd); border-color:#f4d7e9; }
+.button:hover { transform:none; border-color:#f4d7e9; box-shadow:0 0 22px #f2b9d52b; }
+.button-outline { color:#f2dce8; }
+.section-title>i { background:linear-gradient(90deg,transparent,var(--spirit-gold),transparent); box-shadow:0 0 14px #cfb58a33; }
+.section-title h2 { text-shadow:0 0 24px #efb9d317; }
+.skill-card,.project-card,.cert-category,.contact-card,.post-card,.publication-card { background:linear-gradient(135deg,#242238ed,#141c2bec); border-color:#8f779c66; box-shadow:0 15px 45px #070a1640,inset 0 1px #ead3e815; }
+.skill-card h3,.cert-category h3,.contact-card dl div { border-color:#cfb58a3b; }
+.skill-card:hover,.project-card:hover,.post-card:hover,.publication-card:hover { transform:none; border-color:#d9b7cbad; box-shadow:0 12px 38px #d0a6c311; }
+.tags span { color:#b6d8d6; border-color:#abdcd938; background:#abdcd908; }
+.cve-table-wrap,.cve-controls select { background:#171b2bf5; border-color:#8f779c66; }
+.cve-table th { color:var(--spirit-gold); background:#cfb58a06; }
+.cve-table tbody tr:hover td { background:#c6b1dc10; }
+.severity-high { color:#ffc78e; border-color:#ffc78e88; }
+.severity-moderate { color:#efcf98; border-color:#efcf9888; }
+.severity-critical { color:#ffa3b5; border-color:#ffa3b588; }
+.post-cover,.certificate-art.grid { background-image:linear-gradient(#abdcd90d 1px,transparent 1px),linear-gradient(90deg,#abdcd90d 1px,transparent 1px); }
+.certificate-art,.certificate-art.signal,.certificate-art.terminal,.dialog-art { background:linear-gradient(140deg,#302b46,#182b36); }
+.cert-card,.certificate-dialog,.dialog-close { background:#191d2f; }
+.certificate-dialog::backdrop { background:#080b18cc; }
+.article { background:#101321f5; }
+.article code,.article pre { background:#191e30; border-color:#66566f; }
+.reading-progress { background:var(--spirit-jade); box-shadow:0 0 10px #abdcd966; }
+.site-footer { border-color:#cfb58a26; background:linear-gradient(0deg,#1e2037,transparent); }
+.back-to-top { background:linear-gradient(135deg,#f2c4dd,#bdcfde); color:#201b2f; }
+.spirit-petal-layer { position:fixed; inset:0; pointer-events:none; z-index:1; overflow:hidden; }
+.spirit-petal { position:absolute; top:-24px; width:var(--size); height:calc(var(--size) * .5); border-radius:90% 10% 90% 15%; background:linear-gradient(135deg,#ffe1ed,#d899c2); opacity:0; animation:spirit-fall var(--duration) linear infinite; animation-delay:var(--delay); }
+@keyframes spirit-fall { 5% { opacity:var(--alpha); } 45% { transform:translate3d(calc(var(--drift) * .35),48vh,0) rotate(130deg); } 90% { opacity:var(--alpha); } 100% { transform:translate3d(var(--drift),110vh,0) rotate(310deg); opacity:0; } }
+@media(max-width:768px) { .site-nav { background:#121827f5; } .hero { background-position:65% center; } .terminal-window { background:linear-gradient(135deg,#182131ed,#1e182de3); } }
+@media(prefers-reduced-motion:reduce) { .spirit-petal-layer { display:none; } }
+
+/* V3: illustrated chapters, with full-bleed art outside the unchanged content grid. */
+#skills,#research,#certifications,#projects,#publications,#contact { position:relative; isolation:isolate; }
+#skills::before,#research::before,#certifications::before,#projects::before,#publications::before,#contact::before {
+  content:''; position:absolute; top:0; bottom:0; left:50%; width:100vw;
+  transform:translateX(-50%); z-index:-1; pointer-events:none;
+  background-image:linear-gradient(0deg,#101321,transparent 22%,transparent 75%,#101321),linear-gradient(90deg,#10132133,#101321b0),var(--chapter-art);
+  background-size:cover; background-position:var(--chapter-position,center);
+}
+#skills { --chapter-art:var(--art-blossom); --chapter-position:center 35%; }
+#research { --chapter-art:var(--art-springs); --chapter-position:center 35%; }
+#certifications { --chapter-art:var(--art-evening); --chapter-position:center 28%; }
+#projects { --chapter-art:var(--art-blossom); --chapter-position:center 75%; }
+#publications { --chapter-art:var(--art-springs); --chapter-position:70% center; }
+#contact { --chapter-art:var(--art-evening); --chapter-position:center 65%; }
+.section-title { position:relative; }
+.section-title h2 { text-shadow:0 2px 10px #080a19,0 0 38px #d7b2d54d; }
+.section-title>p { text-shadow:0 2px 8px #080a19; }
+.section-title>i { width:96px; height:3px; position:relative; }
+.section-title>i::after { content:''; position:absolute; width:9px; height:9px; top:-3px; left:calc(50% - 4px); transform:rotate(45deg); background:#d7b994; box-shadow:0 0 15px #f8cfb078; }
+.skill-card,.project-card,.cert-category,.publication-card,.contact-card { background:linear-gradient(125deg,#1d2136ed,#14192bed); border-color:#cbb7d580; box-shadow:0 18px 45px #060c2060,inset 0 0 0 5px #ccb7da08; }
+.project-card,.publication-card { border-radius:18px 3px 18px 3px; }
+.skill-card { border-radius:3px 22px 3px 22px; }
+.button { position:relative; isolation:isolate; border:1px solid transparent; border-radius:0; background:none; color:#f7e5f1; box-shadow:none; }
+.button::before { content:''; position:absolute; inset:-1px; z-index:-1; pointer-events:none; clip-path:polygon(10px 0,calc(100% - 10px) 0,100% 50%,calc(100% - 10px) 100%,10px 100%,0 50%); background:linear-gradient(115deg,#efd0aa,#d3aedf 48%,#93dcd5); }
+.button::after { content:''; position:absolute; inset:1px; z-index:-1; pointer-events:none; clip-path:polygon(9px 0,calc(100% - 9px) 0,100% 50%,calc(100% - 9px) 100%,9px 100%,0 50%); background:linear-gradient(110deg,#2b2440,#162f3d); transition:background .25s,opacity .25s; }
+.button-solid { color:#24172e; text-shadow:0 1px #fff4; }
+.button-solid::after { background:linear-gradient(115deg,#f2bfd7,#dfbfeb 55%,#a8dcd8); }
+.button:hover { background:none; border-color:transparent; box-shadow:none; filter:drop-shadow(0 0 10px #d3b4dc80); }
+.button:focus-visible { outline:2px solid #bfeee9; outline-offset:6px; }
+.project-card .button-outline::before,.publication-card .button-outline::before { clip-path:none; border-radius:18px 2px 18px 2px; }
+.project-card .button-outline::after,.publication-card .button-outline::after { clip-path:none; border-radius:16px 1px 16px 1px; }
+.back-to-top { border-radius:14px 3px 14px 3px; border:1px solid #f4d5e4; box-shadow:0 0 22px #b4e8db60,inset 0 0 0 4px #ffffff26; }
+.contact-card { border-radius:28px 4px 28px 4px; }
+.cve-table-wrap { box-shadow:0 15px 45px #04091880; }
+@media(max-width:768px) {
+  #skills::before,#research::before,#certifications::before,#projects::before,#publications::before,#contact::before { background-image:linear-gradient(0deg,#101321,transparent 20%,transparent 80%,#101321),linear-gradient(90deg,#10132155,#10132199),var(--chapter-art); }
+  #skills,#projects { --chapter-position:62% center; }
+  #research,#publications { --chapter-position:60% center; }
+  #certifications,#contact { --chapter-position:45% center; }
 }
 
-body { background: radial-gradient(ellipse 80% 30% at 50% 0, #3a1b58, var(--bg) 72%); }
-.constellation-canvas, .flower-canvas { position: fixed; inset: 0; pointer-events: none; }
-.constellation-canvas { z-index: 0; opacity: .42; }
-.flower-canvas { z-index: 0; opacity: .84; }
-.scanlines { background: repeating-linear-gradient(to bottom, transparent 0, transparent 2px, rgba(255,185,215,.014) 3px, transparent 4px); }
-.site-header { background: #1b1026d9; }
-.site-nav a:after { background: var(--accent); box-shadow: 0 0 8px #ffb9d788; }
-.terminal-window, .skill-card, .project-card, .cert-category, .contact-card, .post-card, .publication-card { border-color: var(--border); background: var(--panel); box-shadow: 0 28px 70px #08030f99, 0 0 32px #ffb9d71a; }
-.button:hover, .project-card:hover, .post-card:hover, .publication-card:hover { box-shadow: 0 10px 24px #ffb9d72b; }
-.certificate-art { background: linear-gradient(135deg, #3a1c50, #1a1027); border-color: var(--line); }
-.certificate-art.signal { background: repeating-linear-gradient(45deg, #241335 0 8px, #301845 8px 9px); }
-.certificate-art.grid, .post-cover { background-image: linear-gradient(#ffb9d718 1px, transparent 1px), linear-gradient(90deg, #ffb9d718 1px, transparent 1px); }
-.certificate-art.terminal, .dialog-art { background: linear-gradient(145deg, #1a1027, #48235c); }
-.cert-card, .article code, .article pre, .cve-table-wrap, .cve-controls select { background: #1b1028d9; border-color: var(--line); }
-.article blockquote { border-color: var(--accent-dim); }
-.certificate-dialog { background: #21112ef7; border-color: var(--border); }
-.back-to-top { color: #24102f; }
-
-@media (prefers-reduced-motion: reduce) {
-  .constellation-canvas { opacity: .2; }
-  .flower-canvas { opacity: .68; }
+/* Keep original illustration detail: no blur and no viewport-wide splash upscaling. */
+.terminal-window,.skill-card,.project-card,.cert-category,.post-card,.contact-card { backdrop-filter:none; }
+.hero { background-size:100% 100%,100% 100%,auto min(100%,1024px); background-repeat:no-repeat; background-color:#101321; }
+#skills::before,#research::before,#certifications::before,#projects::before,#publications::before,#contact::before {
+  background-size:100% 100%,100% 100%,min(100vw,1215px) auto;
+  background-repeat:no-repeat;
+  background-position:center,center,var(--chapter-position,center);
+  background-image:linear-gradient(0deg,#101321,transparent 18%,transparent 84%,#101321),linear-gradient(90deg,#10132115,#10132140),var(--chapter-art);
 }
+.skill-card,.project-card,.cert-category,.publication-card,.contact-card { background:linear-gradient(125deg,#1d2136eb,#14192beb); }
+#skills { --chapter-position:center top; }
+#research { --chapter-position:center top; }
+#certifications { --chapter-position:center top; }
+#projects { --chapter-position:center center; }
+#publications { --chapter-position:center center; }
+#contact { --chapter-position:center center; }
+.site-footer::after { content:'Ahri artwork: Riot Games / Legends of Runeterra. Unofficial fan portfolio.'; display:block; margin-top:8px; color:var(--muted); font-size:11px; }
+@media(max-width:768px) { .hero { background-size:100% 100%,100% 100%,auto 100%; background-position:center,center,55% center; } }

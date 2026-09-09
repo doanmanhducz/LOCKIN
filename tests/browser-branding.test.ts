@@ -5,6 +5,7 @@ import { readFileSync } from 'node:fs';
 it('defines base-path-safe browser branding in the shared layout', () => {
   const layout = readFileSync(new URL('../src/layouts/BaseLayout.astro', import.meta.url), 'utf8');
   expect(layout).toContain('<title>Portfolio Dokja Doan</title>');
-  expect(layout).toContain('name="theme-color" content="#160d24"');
+  expect(layout).toContain('name="theme-color" content="#101321"');
+  expect(layout).toContain("sitePath('/favicon.svg')");
   expect(layout).toContain("sitePath('/favicon-32x32.png')");
 });

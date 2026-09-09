@@ -1,0 +1,37 @@
+<div class="spirit-petal-layer" aria-hidden="true"></div>
+<script>
+  const layer = document.querySelector<HTMLElement>('.spirit-petal-layer');
+  if (layer) {
+    const mobile = matchMedia('(max-width:768px)');
+    const reduced = matchMedia('(prefers-reduced-motion:reduce)');
+    const pause = () => layer.querySelectorAll<HTMLElement>('i').forEach(petal => {
+      petal.style.animationPlayState = document.hidden ? 'paused' : 'running';
+    });
+    const populate = () => {
+      layer.replaceChildren();
+      if (reduced.matches) return;
+      const fragment = document.createDocumentFragment();
+      for (let i = 0; i < (mobile.matches ? 30 : 76); i++) {
+        const petal = document.createElement('i');
+        const edge = i % 5 !== 0;
+        const x = edge ? (i % 2 ? 82 + i * 7 % 16 : i * 7 % 16) : 25 + i * 13 % 50;
+        petal.className = 'spirit-petal';
+        petal.style.cssText = `left:${x}%;--size:${7+i%10}px;--duration:${18+i%14}s;--delay:-${i*1.73}s;--alpha:${edge ? .64 : .2};--drift:${i%2 ? 95 : -75}px`;
+        fragment.append(petal);
+      }
+      layer.append(fragment);
+      pause();
+    };
+    const cleanup = () => {
+      mobile.removeEventListener('change', populate);
+      reduced.removeEventListener('change', populate);
+      document.removeEventListener('visibilitychange', pause);
+      layer.replaceChildren();
+    };
+    populate();
+    mobile.addEventListener('change', populate);
+    reduced.addEventListener('change', populate);
+    document.addEventListener('visibilitychange', pause);
+    document.addEventListener('astro:before-swap', cleanup, { once:true });
+  }
+</script>

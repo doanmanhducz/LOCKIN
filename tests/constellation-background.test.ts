@@ -2,16 +2,17 @@ import { expect, it } from 'vitest';
 // @ts-ignore Vitest supplies Node's runtime module without project-wide Node typings.
 import { readFileSync } from 'node:fs';
 
-it('mounts one shared constellation canvas with motion safeguards', () => {
+it('mounts a shared petal background with motion safeguards', () => {
   const layout = readFileSync(new URL('../src/layouts/BaseLayout.astro', import.meta.url), 'utf8');
-  const component = readFileSync(new URL('../src/components/ConstellationBackground.astro', import.meta.url), 'utf8');
+  const component = readFileSync(new URL('../src/components/SpiritBackground.astro', import.meta.url), 'utf8');
 
-  expect(layout).toContain('<ConstellationBackground />');
+  expect(layout).toContain('<SpiritBackground />');
+  expect(layout).not.toContain('<ConstellationBackground />');
   expect(component).toContain('prefers-reduced-motion');
   expect(component).toContain('visibilitychange');
-  expect(component).toContain('devicePixelRatio');
-  expect(component).toContain('const connectionDistance = () => 200');
-  expect(component).toContain('* 0.32');
+  expect(component).toContain('if (reduced.matches) return');
+  expect(component).toContain("removeEventListener('change', populate)");
+  expect(component).toContain('aria-hidden="true"');
 });
 
 it('keeps the constellation and scanlines behind readable content', () => {
