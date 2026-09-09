@@ -8,6 +8,7 @@ it('defines the approved one-page navigation in visual order', () => {
     '#research',
     '#certifications',
     '#projects',
+    '#publications',
     '/writeups',
     '/blog',
     '#contact'

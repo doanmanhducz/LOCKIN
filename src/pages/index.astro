@@ -42,7 +42,7 @@ import { cveRecords, cveNumber } from '../data/cves';
 
   <section class="section reveal" id="publications" aria-labelledby="publications-title">
     <header class="section-title"><p>$ cat publications.log</p><h2 id="publications-title">Publications</h2><i></i></header>
-    <div class="publication-grid">{portfolio.publications.map((publication) => <article class="publication-card"><p class="publication-venue">{publication.venue}</p><h3>{publication.title}</h3><p>{publication.description}</p><a class="button button-outline" href={publication.url.startsWith('/') ? sitePath(publication.url) : publication.url} target="_blank" rel="noreferrer">{publication.linkLabel} â†—</a></article>)}</div>
+    <div class="publication-grid">{portfolio.publications.map((publication) => <article class="publication-card"><p class="publication-venue">{publication.venue}</p><h3>{publication.title}</h3><p>{publication.description}</p><a class="button button-outline" href={publication.url.startsWith('/') ? sitePath(publication.url) : publication.url} target="_blank" rel="noreferrer">{publication.linkLabel} -&gt;</a></article>)}</div>
   </section>
 
   <section class="section contact-section reveal" id="contact" aria-labelledby="contact-title">

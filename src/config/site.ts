@@ -14,6 +14,7 @@ export const portfolioNavigation = [
   { label: 'Research', href: '#research' },
   { label: 'Certifications', href: '#certifications' },
   { label: 'Projects', href: '#projects' },
+  { label: 'Publications', href: '#publications' },
   { label: 'Write-Ups', href: '/writeups' },
   { label: 'Blog', href: '/blog' },
   { label: 'Contact', href: '#contact' }
