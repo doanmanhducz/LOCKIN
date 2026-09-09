@@ -1,5 +1,7 @@
 # Ahri artwork
 
+Current theme uses `spirit-tree.webp`, converted at WebP quality 95 from the existing approved demo asset `hoa-linh-preview/hero.png` (1672 x 941). The same landscape appears three times: hero, projects (mirrored), contact. Its original provenance has not been independently established. Ahri assets below are retained but no longer referenced by the UI.
+
 Official Riot Games illustrations, reused for this unofficial fan portfolio. Not AI-generated. No claim is made about traditional versus digital painting or individual artist attribution without a verified credit.
 
 - ahri-realm.webp: Legends of Runeterra Ahri card 05IO004, 2048 x 1024 original. https://dd.b.pvp.net/latest/set5/en_us/img/cards/05IO004-full.png
