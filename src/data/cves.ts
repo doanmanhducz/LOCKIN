@@ -18,7 +18,8 @@ export const cveRecords: CveRecord[] = [
   { cve: 'Pending', program: 'TryGhost/Ghost', severity: 'Moderate', score: 4.3, writeup: '' },
   { cve: 'Pending', program: 'nautobot', severity: 'Moderate', score: 4.3, writeup: '' },
   { cve: 'Pending', program: 'grokability/snipe-it', severity: 'Moderate', score: 5.4, writeup: '' },
-  { cve: 'Pending', program: 'django-cms', severity: 'Moderate', score: 4.3, writeup: '' }
+  { cve: 'Pending', program: 'django-cms', severity: 'Moderate', score: 4.3, writeup: '' },
+  { cve: 'Pending', program: 'goauthentik/authentik', severity: 'High', score: 7.4, writeup: '' }
 ];
 
 export const severityRank: Record<Severity, number> = { Low: 1, Moderate: 2, High: 3, Critical: 4 };
