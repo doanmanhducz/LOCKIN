@@ -13,6 +13,7 @@ it('keeps published and pending records with valid severity scores', () => {
   expect(cveRecords.filter((record) => record.cve === 'Pending')).toHaveLength(8);
   expect(cveRecords).toContainEqual({ cve: 'Pending', program: 'goauthentik/authentik', severity: 'High', score: 7.4, writeup: '' });
   expect(cveRecords.filter((record) => record.cve === 'Pending').every((record) => record.writeup === '')).toBe(true);
+  expect(cveRecords.filter((record) => record.cve !== 'Pending')).toHaveLength(2);
 });
 
 it('parses the numeric part of a CVE id for ordering', () => {
