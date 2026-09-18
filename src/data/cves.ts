@@ -14,6 +14,7 @@ export const cveRecords: CveRecord[] = [
   { cve: 'CVE-2026-61726', program: 'TandoorRecipes/recipes', severity: 'High', score: 8.1, writeup: 'cve-2026-61726-tandoor-recipes' },
   { cve: 'Pending', program: 'Baserow', severity: 'High', score: 8.6, writeup: '' },
   { cve: 'Pending', program: 'TryGhost/Ghost', severity: 'High', score: 8.1, writeup: '' },
+  { cve: 'Pending', program: 'TryGhost/Ghost', severity: 'High', score: 7.3, writeup: '' },
   { cve: 'Pending', program: 'TryGhost/Ghost', severity: 'Moderate', score: 4.3, writeup: '' },
   { cve: 'Pending', program: 'TryGhost/Ghost', severity: 'Moderate', score: 4.3, writeup: '' },
   { cve: 'Pending', program: 'nautobot', severity: 'Moderate', score: 4.3, writeup: '' },
