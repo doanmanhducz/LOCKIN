@@ -24,7 +24,14 @@ export const cveRecords: CveRecord[] = [
   { cve: 'Pending', program: 'goauthentik/authentik', severity: 'High', score: 7.4, writeup: '' },
   { cve: 'Pending', program: 'OpenAEV-Platform/openaev', severity: 'High', score: 8.1, writeup: '' },
   { cve: 'Pending', program: 'OpenAEV-Platform/openaev', severity: 'High', score: 8.1, writeup: '' },
-  { cve: 'Pending', program: 'OpenAEV-Platform/openaev', severity: 'High', score: 7.5, writeup: '' }
+  { cve: 'Pending', program: 'OpenAEV-Platform/openaev', severity: 'High', score: 7.5, writeup: '' },
+  { cve: 'Pending', program: 'TOTOLINK/A3700R', severity: 'Critical', score: 9.8, writeup: '' },
+  { cve: 'Pending', program: 'TOTOLINK/A3700R', severity: 'Critical', score: 9.8, writeup: '' },
+  { cve: 'Pending', program: 'TOTOLINK/A3700R', severity: 'High', score: 8.0, writeup: '' },
+  { cve: 'Pending', program: 'TOTOLINK/A3700R', severity: 'High', score: 8.1, writeup: '' },
+  { cve: 'Pending', program: 'TOTOLINK/A3700R', severity: 'High', score: 7.5, writeup: '' },
+  { cve: 'Pending', program: 'TOTOLINK/A3700R', severity: 'High', score: 7.2, writeup: '' },
+  { cve: 'Pending', program: 'TOTOLINK/A3700R', severity: 'High', score: 7.2, writeup: '' }
 ];
 
 export const severityRank: Record<Severity, number> = { Low: 1, Moderate: 2, High: 3, Critical: 4 };
