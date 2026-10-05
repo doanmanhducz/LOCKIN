@@ -4,6 +4,7 @@ import { portfolio, site } from '../config/site';
 import { sitePath } from '../lib/paths';
 import { postPath } from '../lib/posts';
 import { cveRecords, cveNumber } from '../data/cves';
+const pageSize = 10;
 const publishedCveCount = cveRecords.filter((record) => record.cve !== 'Pending').length;
 ---
 <BaseLayout title="Security Research Portfolio" currentPath="/">
@@ -29,7 +30,15 @@ const publishedCveCount = cveRecords.filter((record) => record.cve !== 'Pending'
   <section class="section reveal" id="research" aria-labelledby="research-title">
     <header class="section-title research-heading"><p>$ cat cves.log</p><h2 id="research-title">Research</h2><i></i></header>
     <div class="research-table-summary"><aside class="cve-counter" aria-label={`${publishedCveCount} assigned CVEs out of ${cveRecords.length} total records`}><span>CVEs assigned:</span><strong>{publishedCveCount}</strong><span>CVEs total:</span><strong>{cveRecords.length}</strong></aside></div>
-    <div class="cve-table-wrap"><table class="cve-table"><thead><tr><th><button class="cve-sort-button" id="cve-sort-toggle" type="button" aria-label="Sort CVE numbers from oldest to newest" aria-sort="ascending">CVE Number <span aria-hidden="true">↑</span></button></th><th><div class="cve-filter" data-filter="program"><button class="cve-filter-button" type="button" aria-expanded="false">Program <span aria-hidden="true">▾</span></button><div class="cve-filter-menu" hidden><label class="cve-filter-all"><input type="checkbox" data-select-all checked /> <span>Select all</span></label>{Array.from(new Set(cveRecords.map((record) => record.program))).sort().map((program) => <label><input type="checkbox" value={program} checked /> <span>{program}</span></label>)}</div></div></th><th><div class="cve-filter" data-filter="severity"><button class="cve-filter-button" type="button" aria-expanded="false">Severity <span aria-hidden="true">▾</span></button><div class="cve-filter-menu" hidden><label class="cve-filter-all"><input type="checkbox" data-select-all checked /> <span>Select all</span></label>{['Critical', 'High', 'Moderate', 'Low'].filter((severity) => cveRecords.some((record) => record.severity === severity)).map((severity) => <label><input type="checkbox" value={severity} checked /> <span>{severity}</span></label>)}</div></div></th></tr></thead><tbody id="cve-body">{[...cveRecords].sort((a, b) => cveNumber(a.cve) - cveNumber(b.cve)).map((record) => <tr data-cve={record.cve} data-program={record.program} data-severity={record.severity}><td>{record.writeup ? <a href={sitePath(postPath('writeup', record.writeup))}>{record.cve}</a> : <span class="pending-cve">{record.cve}</span>}</td><td>{record.program}</td><td><span class:list={['severity', `severity-${record.severity.toLowerCase()}`]}>{record.severity} {record.score}</span></td></tr>)}</tbody></table></div>
+    <div class="cve-table-wrap"><table class="cve-table"><thead><tr><th><button class="cve-sort-button" id="cve-sort-toggle" type="button" aria-label="Sort CVE numbers from oldest to newest" aria-sort="ascending">CVE Number <span aria-hidden="true">↑</span></button></th><th><div class="cve-filter" data-filter="program"><button class="cve-filter-button" type="button" aria-expanded="false">Program <span aria-hidden="true">▾</span></button><div class="cve-filter-menu" hidden><label class="cve-filter-all"><input type="checkbox" data-select-all checked /> <span>Select all</span></label>{Array.from(new Set(cveRecords.map((record) => record.program))).sort().map((program) => <label><input type="checkbox" value={program} checked /> <span>{program}</span></label>)}</div></div></th><th><div class="cve-filter" data-filter="severity"><button class="cve-filter-button" type="button" aria-expanded="false">Severity <span aria-hidden="true">▾</span></button><div class="cve-filter-menu" hidden><label class="cve-filter-all"><input type="checkbox" data-select-all checked /> <span>Select all</span></label>{['Critical', 'High', 'Moderate', 'Low'].filter((severity) => cveRecords.some((record) => record.severity === severity)).map((severity) => <label><input type="checkbox" value={severity} checked /> <span>{severity}</span></label>)}</div></div></th></tr></thead><tbody id="cve-body">{[...cveRecords].sort((a, b) => cveNumber(a.cve) - cveNumber(b.cve)).map((record, index) => <tr hidden={index >= pageSize} data-cve={record.cve} data-program={record.program} data-severity={record.severity}><td>{record.writeup ? <a href={sitePath(postPath('writeup', record.writeup))}>{record.cve}</a> : <span class="pending-cve">{record.cve}</span>}</td><td>{record.program}</td><td><span class:list={['severity', `severity-${record.severity.toLowerCase()}`]}>{record.severity} {record.score}</span></td></tr>)}</tbody></table></div>
+    <div class="cve-pagination">
+      <p id="cve-page-status" role="status">Showing 1–{Math.min(pageSize, cveRecords.length)} of {cveRecords.length}</p>
+      <nav aria-label="Research table pages" id="cve-pages">
+        <button type="button" data-page-step="-1" aria-label="Previous page" disabled>‹</button>
+        {Array.from({ length: Math.ceil(cveRecords.length / pageSize) }, (_, index) => <button type="button" data-page={index + 1} aria-label={`Page ${index + 1}`} aria-current={index === 0 ? 'page' : undefined}>{index + 1}</button>)}
+        <button type="button" data-page-step="1" aria-label="Next page" disabled={cveRecords.length <= pageSize}>›</button>
+      </nav>
+    </div>
   </section>
 
   <section class="section reveal" id="certifications" aria-labelledby="certifications-title">
@@ -64,15 +73,43 @@ const publishedCveCount = cveRecords.filter((record) => record.cve !== 'Pending'
   const severityRank: Record<string, number> = { Low: 1, Moderate: 2, High: 3, Critical: 4 };
   const cveNumber = (cve: string) => { const match = cve.match(/-(\d+)$/); return match ? Number(match[1]) : Number.MAX_SAFE_INTEGER; };
   let cveAscending = true;
+  const pageSize = 10;
+  let currentPage = 1;
+  const pageNav = document.querySelector<HTMLElement>('#cve-pages');
+  const pageStatus = document.querySelector<HTMLElement>('#cve-page-status');
   const selectedValues = (filter: HTMLElement) => { const menu = document.querySelector<HTMLElement>(`.cve-filter-menu[data-filter-owner="${filter.dataset.filter}"]`) ?? filter; return [...menu.querySelectorAll<HTMLInputElement>('input[type="checkbox"]:checked:not([data-select-all])')].map((input) => input.value); };
-  const applyCveView = () => {
+  const applyCveView = (resetPage = true) => {
     if (!cveBody) return;
     const activePrograms = selectedValues(document.querySelector<HTMLElement>('[data-filter="program"]')!);
     const activeSeverities = selectedValues(document.querySelector<HTMLElement>('[data-filter="severity"]')!);
-    [...cveBody.querySelectorAll('tr')].forEach((row) => { row.hidden = !activePrograms.includes(row.dataset.program ?? '') || !activeSeverities.includes(row.dataset.severity ?? ''); });
     const rows = [...cveBody.querySelectorAll('tr')].sort((a, b) => { const diff = cveNumber(a.dataset.cve ?? '') - cveNumber(b.dataset.cve ?? ''); const rankDiff = (severityRank[a.dataset.severity ?? ''] ?? 0) - (severityRank[b.dataset.severity ?? ''] ?? 0); return (cveAscending ? diff : -diff) || rankDiff; });
-    rows.forEach((row) => cveBody.appendChild(row));
+    const matchingRows = rows.filter((row) => activePrograms.includes(row.dataset.program ?? '') && activeSeverities.includes(row.dataset.severity ?? ''));
+    const pageCount = Math.ceil(matchingRows.length / pageSize);
+    currentPage = resetPage ? 1 : Math.max(1, Math.min(currentPage, pageCount));
+    const start = (currentPage - 1) * pageSize;
+    const visibleRows = new Set(matchingRows.slice(start, start + pageSize));
+    rows.forEach((row) => { row.hidden = !visibleRows.has(row); cveBody.appendChild(row); });
+    if (pageStatus) pageStatus.textContent = matchingRows.length ? `Showing ${start + 1}–${Math.min(start + pageSize, matchingRows.length)} of ${matchingRows.length}` : 'No matching CVEs';
+    if (pageNav) {
+      pageNav.hidden = pageCount <= 1;
+      pageNav.querySelectorAll<HTMLButtonElement>('[data-page]').forEach((button) => {
+        const page = Number(button.dataset.page);
+        button.hidden = page > pageCount;
+        if (page === currentPage) button.setAttribute('aria-current', 'page');
+        else button.removeAttribute('aria-current');
+      });
+      const previous = pageNav.querySelector<HTMLButtonElement>('[data-page-step="-1"]');
+      const next = pageNav.querySelector<HTMLButtonElement>('[data-page-step="1"]');
+      if (previous) previous.disabled = currentPage === 1;
+      if (next) next.disabled = currentPage >= pageCount;
+    }
   };
+  pageNav?.addEventListener('click', (event) => {
+    const button = (event.target as HTMLElement).closest<HTMLButtonElement>('button');
+    if (!button || button.disabled) return;
+    currentPage = button.dataset.page ? Number(button.dataset.page) : currentPage + Number(button.dataset.pageStep);
+    applyCveView(false);
+  });
   cveToggle?.addEventListener('click', () => { cveAscending = !cveAscending; cveToggle.setAttribute('aria-sort', cveAscending ? 'ascending' : 'descending'); cveToggle.setAttribute('aria-label', `Sort CVE numbers ${cveAscending ? 'from oldest to newest' : 'from newest to oldest'}`); const arrow = cveToggle.querySelector('span'); if (arrow) arrow.textContent = cveAscending ? '↑' : '↓'; applyCveView(); });
   document.querySelectorAll<HTMLElement>('.cve-filter').forEach((filter) => { const button = filter.querySelector<HTMLButtonElement>('.cve-filter-button'); const menu = filter.querySelector<HTMLElement>('.cve-filter-menu'); const all = filter.querySelector<HTMLInputElement>('[data-select-all]'); const options = [...filter.querySelectorAll<HTMLInputElement>('input[type="checkbox"]:not([data-select-all])')]; const syncAll = () => { if (all) all.checked = options.length > 0 && options.every((option) => option.checked); }; const placeMenu = () => { if (!menu || matchMedia('(max-width:600px)').matches || !button) return; const rect = button.getBoundingClientRect(); const width = Math.min(280, innerWidth - 40); const left = Math.max(12, Math.min(rect.left + scrollX, scrollX + innerWidth - width - 12)); menu.style.top = `${rect.bottom + scrollY + 8}px`; menu.style.left = `${left}px`; }; if (menu) { menu.dataset.filterOwner = filter.dataset.filter ?? ''; document.body.appendChild(menu); menu.addEventListener('click', (event) => event.stopPropagation()); } button?.addEventListener('click', (event) => { event.stopPropagation(); const isOpen = !menu?.hasAttribute('hidden'); document.querySelectorAll<HTMLElement>('.cve-filter-menu').forEach((other) => other.hidden = true); document.querySelectorAll<HTMLButtonElement>('.cve-filter-button').forEach((other) => other.setAttribute('aria-expanded', 'false')); if (menu) menu.hidden = isOpen; if (!isOpen) placeMenu(); button.setAttribute('aria-expanded', String(!isOpen)); }); all?.addEventListener('change', () => { options.forEach((option) => { option.checked = all.checked; }); applyCveView(); }); options.forEach((input) => input.addEventListener('change', () => { syncAll(); applyCveView(); })); syncAll(); });
   document.addEventListener('click', () => { document.querySelectorAll<HTMLElement>('.cve-filter-menu').forEach((menu) => menu.hidden = true); document.querySelectorAll<HTMLButtonElement>('.cve-filter-button').forEach((button) => button.setAttribute('aria-expanded', 'false')); });
@@ -81,6 +118,16 @@ const publishedCveCount = cveRecords.filter((record) => record.cve !== 'Pending'
 </BaseLayout>
 
 <style>
+  .cve-pagination{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;font:500 .72rem 'JetBrains Mono',monospace;color:var(--muted)}
+  .cve-pagination p{margin:0}
+  .cve-pagination nav{display:flex;gap:6px}
+  .cve-pagination nav[hidden],.cve-pagination button[hidden]{display:none}
+  .cve-pagination button{display:grid;place-items:center;min-width:32px;height:32px;padding:0 8px;border:1px solid var(--border);border-radius:7px;background:#17172bdb;color:var(--accent-dim);font:inherit;cursor:pointer;transition:background .15s,border-color .15s}
+  .cve-pagination button:hover:not(:disabled),.cve-pagination button[aria-current="page"]{border-color:#f3b7d5;background:#f3b7d51a;color:#f3b7d5}
+  .cve-pagination button:focus-visible{outline:2px solid var(--accent-dim);outline-offset:3px}
+  .cve-pagination button:disabled{opacity:.35;cursor:default}
+  @media(max-width:600px){.cve-pagination{flex-direction:column;gap:10px}}
+  @media(max-width:400px){.cve-pagination{font-size:.62rem;gap:6px}.cve-pagination nav{gap:4px}.cve-pagination button{min-width:30px;height:32px;padding:0 6px}}
   .research-heading{margin-bottom:28px}.research-table-summary{display:flex;justify-content:flex-end;margin:0 0 10px}.cve-counter{display:grid;grid-template-columns:auto auto;justify-content:start;gap:.28rem .32rem;padding:.62rem .8rem;border:1px solid var(--border);border-radius:9px;background:linear-gradient(135deg,#17172bdb,#101324d9);box-shadow:0 12px 26px #05050d66;backdrop-filter:blur(8px)}.cve-counter span{color:var(--accent-dim);font:600 .61rem 'JetBrains Mono',monospace;letter-spacing:.06em;text-transform:uppercase}.cve-counter strong{color:#f3b7d5;font:600 .95rem/1 'JetBrains Mono',monospace;text-shadow:0 0 16px #efaddb48}@media(max-width:720px){.research-heading{margin-bottom:22px}.research-table-summary{margin-bottom:8px}}
   @media(max-width:600px){.cve-table-wrap{overflow:hidden}.cve-table{min-width:0;table-layout:fixed}.cve-table th,.cve-table td{padding:10px 6px;font-size:.68rem}.cve-table th{font-size:.58rem}.cve-table th:nth-child(1),.cve-table td:nth-child(1){width:32%}.cve-table th:nth-child(2),.cve-table td:nth-child(2){width:40%}.cve-table th:nth-child(3),.cve-table td:nth-child(3){width:28%}.cve-table td:nth-child(2){overflow-wrap:anywhere}.severity{padding:2px 4px;font-size:.58rem;white-space:nowrap}}
 </style>
