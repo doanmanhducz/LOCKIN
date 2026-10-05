@@ -31,7 +31,14 @@ export const cveRecords: CveRecord[] = [
   { cve: 'Pending', program: 'TOTOLINK/A3700R', severity: 'High', score: 8.1, writeup: '' },
   { cve: 'Pending', program: 'TOTOLINK/A3700R', severity: 'High', score: 7.5, writeup: '' },
   { cve: 'Pending', program: 'TOTOLINK/A3700R', severity: 'High', score: 7.2, writeup: '' },
-  { cve: 'Pending', program: 'TOTOLINK/A3700R', severity: 'High', score: 7.2, writeup: '' }
+  { cve: 'Pending', program: 'TOTOLINK/A3700R', severity: 'High', score: 7.2, writeup: '' },
+  { cve: 'Pending', program: 'TOTOLINK/X6000R', severity: 'Critical', score: 9.8, writeup: '' },
+  { cve: 'Pending', program: 'TOTOLINK/X6000R', severity: 'High', score: 8.8, writeup: '' },
+  { cve: 'Pending', program: 'TOTOLINK/X6000R', severity: 'High', score: 8.8, writeup: '' },
+  { cve: 'Pending', program: 'TOTOLINK/X6000R', severity: 'High', score: 8.2, writeup: '' },
+  { cve: 'Pending', program: 'TOTOLINK/X6000R', severity: 'High', score: 8.2, writeup: '' },
+  { cve: 'Pending', program: 'TOTOLINK/X6000R', severity: 'High', score: 8.1, writeup: '' },
+  { cve: 'Pending', program: 'TOTOLINK/X6000R', severity: 'High', score: 7.5, writeup: '' }
 ];
 
 export const severityRank: Record<Severity, number> = { Low: 1, Moderate: 2, High: 3, Critical: 4 };
@@ -40,4 +47,13 @@ export const severityRank: Record<Severity, number> = { Low: 1, Moderate: 2, Hig
 export function cveNumber(cve: string): number {
   const match = cve.match(/-(\d+)$/);
   return match ? Number(match[1]) : Number.MAX_SAFE_INTEGER;
+}
+
+// Assigned IDs always lead; changing their direction does not reverse pending risk order.
+export function compareCves(a: Pick<CveRecord, 'cve' | 'severity' | 'score'>, b: Pick<CveRecord, 'cve' | 'severity' | 'score'>, ascending = true): number {
+  const aAssigned = a.cve !== 'Pending';
+  const bAssigned = b.cve !== 'Pending';
+  if (aAssigned !== bAssigned) return aAssigned ? -1 : 1;
+  if (aAssigned) return (cveNumber(a.cve) - cveNumber(b.cve)) * (ascending ? 1 : -1);
+  return severityRank[b.severity] - severityRank[a.severity] || b.score - a.score;
 }
