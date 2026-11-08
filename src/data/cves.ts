@@ -6,25 +6,26 @@ export type CveRecord = {
   severity: Severity;
   score: number;
   writeup: string;
+  advisoryUrl?: string;
 };
 
 // Ordered oldest to newest: a smaller CVE number was assigned earlier.
 export const cveRecords: CveRecord[] = [
   { cve: 'CVE-2026-61663', program: 'django-cms', severity: 'Moderate', score: 4.3, writeup: 'cve-2026-61663-django-cms' },
   { cve: 'CVE-2026-61726', program: 'TandoorRecipes/recipes', severity: 'High', score: 8.1, writeup: 'cve-2026-61726-tandoor-recipes' },
-  { cve: 'Pending', program: 'Baserow', severity: 'High', score: 8.6, writeup: '' },
-  { cve: 'Pending', program: 'TryGhost/Ghost', severity: 'High', score: 8.1, writeup: '' },
-  { cve: 'Pending', program: 'TryGhost/Ghost', severity: 'High', score: 7.3, writeup: '' },
+  { cve: 'Pending', program: 'Baserow', severity: 'High', score: 8.6, writeup: '', advisoryUrl: 'https://github.com/baserow/baserow/security/advisories/GHSA-r4rf-mcfj-8vm8' },
+  { cve: 'Pending', program: 'TryGhost/Ghost', severity: 'High', score: 8.1, writeup: '', advisoryUrl: 'https://github.com/TryGhost/Ghost/security/advisories/GHSA-q55r-w7fh-rmh6' },
+  { cve: 'Pending', program: 'TryGhost/Ghost', severity: 'High', score: 7.3, writeup: '', advisoryUrl: 'https://github.com/TryGhost/Ghost/security/advisories/GHSA-vm82-r49m-224q' },
+  { cve: 'Pending', program: 'TryGhost/Ghost', severity: 'Moderate', score: 4.3, writeup: '', advisoryUrl: 'https://github.com/TryGhost/Ghost/security/advisories/GHSA-xcgh-2828-cvmx' },
   { cve: 'Pending', program: 'TryGhost/Ghost', severity: 'Moderate', score: 4.3, writeup: '' },
-  { cve: 'Pending', program: 'TryGhost/Ghost', severity: 'Moderate', score: 4.3, writeup: '' },
-  { cve: 'Pending', program: 'nautobot', severity: 'Moderate', score: 4.3, writeup: '' },
-  { cve: 'Pending', program: 'nautobot', severity: 'Moderate', score: 4.3, writeup: '' },
-  { cve: 'Pending', program: 'grokability/snipe-it', severity: 'Moderate', score: 5.4, writeup: '' },
-  { cve: 'Pending', program: 'django-cms', severity: 'Moderate', score: 4.3, writeup: '' },
+  { cve: 'Pending', program: 'nautobot', severity: 'Moderate', score: 4.3, writeup: '', advisoryUrl: 'https://github.com/nautobot/nautobot/security/advisories/GHSA-x69f-q4wj-vx72' },
+  { cve: 'Pending', program: 'nautobot', severity: 'Moderate', score: 4.3, writeup: '', advisoryUrl: 'https://github.com/nautobot/nautobot/security/advisories/GHSA-m6h7-g92h-9p44' },
+  { cve: 'Pending', program: 'grokability/snipe-it', severity: 'Moderate', score: 5.4, writeup: '', advisoryUrl: 'https://github.com/grokability/snipe-it/security/advisories/GHSA-r5q4-mrrm-f59q' },
+  { cve: 'Pending', program: 'django-cms', severity: 'Moderate', score: 4.3, writeup: '', advisoryUrl: 'https://github.com/django-cms/django-cms/security/advisories/GHSA-ppqv-h89f-6q9p' },
   { cve: 'Pending', program: 'goauthentik/authentik', severity: 'High', score: 7.4, writeup: '' },
-  { cve: 'Pending', program: 'OpenAEV-Platform/openaev', severity: 'High', score: 8.1, writeup: '' },
-  { cve: 'Pending', program: 'OpenAEV-Platform/openaev', severity: 'High', score: 8.1, writeup: '' },
-  { cve: 'Pending', program: 'OpenAEV-Platform/openaev', severity: 'High', score: 7.5, writeup: '' },
+  { cve: 'Pending', program: 'OpenAEV-Platform/openaev', severity: 'High', score: 8.1, writeup: '', advisoryUrl: 'https://github.com/OpenAEV-Platform/openaev/security/advisories/GHSA-vvh4-p7p3-3p38' },
+  { cve: 'Pending', program: 'OpenAEV-Platform/openaev', severity: 'High', score: 8.1, writeup: '', advisoryUrl: 'https://github.com/OpenAEV-Platform/openaev/security/advisories/GHSA-xhcc-mv5c-pch4' },
+  { cve: 'Pending', program: 'OpenAEV-Platform/openaev', severity: 'High', score: 7.5, writeup: '', advisoryUrl: 'https://github.com/OpenAEV-Platform/openaev/security/advisories/GHSA-8vff-jf86-v9pp' },
 ];
 
 export const severityRank: Record<Severity, number> = { Low: 1, Moderate: 2, High: 3, Critical: 4 };

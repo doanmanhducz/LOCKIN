@@ -12,6 +12,10 @@ it('keeps published and pending records with valid severity scores', () => {
   expect(cveRecords.every((record) => record.score > 0)).toBe(true);
   expect(cveRecords.filter((record) => record.cve === 'Pending')).toHaveLength(13);
   expect(cveRecords.every((record) => !record.program.toLowerCase().includes('totolink'))).toBe(true);
+  const pendingWithAdvisories = cveRecords.filter((record) => record.advisoryUrl);
+  expect(pendingWithAdvisories).toHaveLength(11);
+  expect(pendingWithAdvisories.every((record) => record.cve === 'Pending')).toBe(true);
+  expect(pendingWithAdvisories.every((record) => record.advisoryUrl?.startsWith('https://github.com/'))).toBe(true);
   expect(cveRecords.filter((record) => record.program === 'OpenAEV-Platform/openaev').map(({ cve, severity, score }) => ({ cve, severity, score }))).toEqual([
     { cve: 'Pending', severity: 'High', score: 8.1 },
     { cve: 'Pending', severity: 'High', score: 8.1 },
