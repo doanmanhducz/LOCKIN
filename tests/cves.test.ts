@@ -8,9 +8,9 @@ it('keeps CVE records ordered oldest to newest by CVE number', () => {
 
 it('keeps published and pending records with valid severity scores', () => {
   expect(cveRecords).toHaveLength(15);
-  expect(cveRecords.slice(0, 2).map((record) => record.cve)).toEqual(['CVE-2026-61663', 'CVE-2026-61726']);
+  expect(cveRecords.slice(0, 3).map((record) => record.cve)).toEqual(['CVE-2026-61663', 'CVE-2026-61726', 'CVE-2026-94612']);
   expect(cveRecords.every((record) => record.score > 0)).toBe(true);
-  expect(cveRecords.filter((record) => record.cve === 'Pending')).toHaveLength(13);
+  expect(cveRecords.filter((record) => record.cve === 'Pending')).toHaveLength(12);
   expect(cveRecords.every((record) => !record.program.toLowerCase().includes('totolink'))).toBe(true);
   const pendingWithAdvisories = cveRecords.filter((record) => record.advisoryUrl);
   expect(pendingWithAdvisories).toHaveLength(11);
@@ -22,9 +22,10 @@ it('keeps published and pending records with valid severity scores', () => {
     { cve: 'Pending', severity: 'High', score: 7.5 }
   ]);
   expect(cveRecords.filter((record) => record.program === 'nautobot')).toHaveLength(2);
-  expect(cveRecords).toContainEqual({ cve: 'Pending', program: 'goauthentik/authentik', severity: 'High', score: 7.4, writeup: '' });
+  expect(cveRecords).toContainEqual({ cve: 'CVE-2026-94612', program: 'goauthentik/authentik', severity: 'High', score: 7.4, writeup: '' });
   expect(cveRecords.filter((record) => record.cve === 'Pending').every((record) => record.writeup === '')).toBe(true);
-  expect(cveRecords.filter((record) => record.cve !== 'Pending')).toHaveLength(2);
+  expect(cveRecords.filter((record) => record.cve !== 'Pending')).toHaveLength(3);
+  expect(cveRecords.filter((record) => record.program === 'TryGhost/Ghost' && record.score === 7.3)).toHaveLength(2);
 });
 
 it('parses the numeric part of a CVE id for ordering', () => {
@@ -41,8 +42,9 @@ it('ranks severity so Moderate < High < Critical', () => {
 it('keeps assigned CVEs first in either ID direction and pending severity/scores descending', () => {
   for (const ascending of [true, false]) {
     const sorted = [...cveRecords].sort((a, b) => compareCves(a, b, ascending));
-    expect(sorted.slice(0, 2).map((r) => r.cve)).toEqual(ascending ? ['CVE-2026-61663', 'CVE-2026-61726'] : ['CVE-2026-61726', 'CVE-2026-61663']);
-    const pending = sorted.slice(2);
+    const assigned = sorted.slice(0, 3).map((r) => r.cve);
+    expect(assigned).toEqual(ascending ? ['CVE-2026-61663', 'CVE-2026-61726', 'CVE-2026-94612'] : ['CVE-2026-94612', 'CVE-2026-61726', 'CVE-2026-61663']);
+    const pending = sorted.slice(3);
     expect(pending.every((r) => r.cve === 'Pending')).toBe(true);
     for (let i = 1; i < pending.length; i++) {
       expect(severityRank[pending[i - 1].severity]).toBeGreaterThanOrEqual(severityRank[pending[i].severity]);
