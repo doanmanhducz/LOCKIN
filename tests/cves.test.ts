@@ -7,28 +7,11 @@ it('keeps CVE records ordered oldest to newest by CVE number', () => {
 });
 
 it('keeps published and pending records with valid severity scores', () => {
-  expect(cveRecords).toHaveLength(29);
+  expect(cveRecords).toHaveLength(15);
   expect(cveRecords.slice(0, 2).map((record) => record.cve)).toEqual(['CVE-2026-61663', 'CVE-2026-61726']);
   expect(cveRecords.every((record) => record.score > 0)).toBe(true);
-  expect(cveRecords.filter((record) => record.cve === 'Pending')).toHaveLength(27);
-  expect(cveRecords.filter((record) => record.program === 'TOTOLINK/X6000R').map(({ cve, severity, score }) => ({ cve, severity, score }))).toEqual([
-    { cve: 'Pending', severity: 'Critical', score: 9.8 },
-    { cve: 'Pending', severity: 'High', score: 8.8 },
-    { cve: 'Pending', severity: 'High', score: 8.8 },
-    { cve: 'Pending', severity: 'High', score: 8.2 },
-    { cve: 'Pending', severity: 'High', score: 8.2 },
-    { cve: 'Pending', severity: 'High', score: 8.1 },
-    { cve: 'Pending', severity: 'High', score: 7.5 }
-  ]);
-  expect(cveRecords.filter((record) => record.program === 'TOTOLINK/A3700R').map(({ cve, severity, score }) => ({ cve, severity, score }))).toEqual([
-    { cve: 'Pending', severity: 'Critical', score: 9.8 },
-    { cve: 'Pending', severity: 'Critical', score: 9.8 },
-    { cve: 'Pending', severity: 'High', score: 8.0 },
-    { cve: 'Pending', severity: 'High', score: 8.1 },
-    { cve: 'Pending', severity: 'High', score: 7.5 },
-    { cve: 'Pending', severity: 'High', score: 7.2 },
-    { cve: 'Pending', severity: 'High', score: 7.2 }
-  ]);
+  expect(cveRecords.filter((record) => record.cve === 'Pending')).toHaveLength(13);
+  expect(cveRecords.every((record) => !record.program.toLowerCase().includes('totolink'))).toBe(true);
   expect(cveRecords.filter((record) => record.program === 'OpenAEV-Platform/openaev').map(({ cve, severity, score }) => ({ cve, severity, score }))).toEqual([
     { cve: 'Pending', severity: 'High', score: 8.1 },
     { cve: 'Pending', severity: 'High', score: 8.1 },
