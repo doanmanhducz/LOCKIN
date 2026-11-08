@@ -1,10 +1,10 @@
-export type Severity = 'Critical' | 'High' | 'Moderate' | 'Low';
+export type Severity = 'Critical' | 'High' | 'Moderate' | 'Low' | 'Unrated';
 
 export type CveRecord = {
   cve: string;
   program: string;
   severity: Severity;
-  score: number;
+  score?: number;
   writeup: string;
   advisoryUrl?: string;
 };
@@ -26,9 +26,12 @@ export const cveRecords: CveRecord[] = [
   { cve: 'Pending', program: 'OpenAEV-Platform/openaev', severity: 'High', score: 8.1, writeup: '', advisoryUrl: 'https://github.com/OpenAEV-Platform/openaev/security/advisories/GHSA-vvh4-p7p3-3p38' },
   { cve: 'Pending', program: 'OpenAEV-Platform/openaev', severity: 'High', score: 8.1, writeup: '', advisoryUrl: 'https://github.com/OpenAEV-Platform/openaev/security/advisories/GHSA-xhcc-mv5c-pch4' },
   { cve: 'Pending', program: 'OpenAEV-Platform/openaev', severity: 'High', score: 7.5, writeup: '', advisoryUrl: 'https://github.com/OpenAEV-Platform/openaev/security/advisories/GHSA-8vff-jf86-v9pp' },
+  { cve: 'Pending', program: 'craftcms', severity: 'Low', writeup: '', advisoryUrl: 'https://github.com/craftcms/cms/security/advisories/GHSA-w5rh-mhxj-wr8r' },
+  { cve: 'Pending', program: 'nocodb', severity: 'Unrated', writeup: '', advisoryUrl: 'https://github.com/nocodb/nocodb/security/advisories/GHSA-hm8p-622v-9c6j' },
+  { cve: 'Pending', program: 'TandoorRecipes/recipes', severity: 'Moderate', score: 5.4, writeup: '', advisoryUrl: 'https://github.com/TandoorRecipes/recipes/security/advisories/GHSA-5p9v-743w-79h3#event-1213988' },
 ];
 
-export const severityRank: Record<Severity, number> = { Low: 1, Moderate: 2, High: 3, Critical: 4 };
+export const severityRank: Record<Severity, number> = { Unrated: 0, Low: 1, Moderate: 2, High: 3, Critical: 4 };
 
 // Numeric suffix of a CVE id; pending disclosures remain after published CVEs.
 export function cveNumber(cve: string): number {
@@ -42,5 +45,5 @@ export function compareCves(a: Pick<CveRecord, 'cve' | 'severity' | 'score'>, b:
   const bAssigned = b.cve !== 'Pending';
   if (aAssigned !== bAssigned) return aAssigned ? -1 : 1;
   if (aAssigned) return (cveNumber(a.cve) - cveNumber(b.cve)) * (ascending ? 1 : -1);
-  return severityRank[b.severity] - severityRank[a.severity] || b.score - a.score;
+  return severityRank[b.severity] - severityRank[a.severity] || (b.score ?? 0) - (a.score ?? 0);
 }
