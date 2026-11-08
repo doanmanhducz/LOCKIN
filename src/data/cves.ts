@@ -1,4 +1,4 @@
-export type Severity = 'Critical' | 'High' | 'Moderate' | 'Low' | 'Unrated';
+export type Severity = 'Critical' | 'High' | 'Moderate' | 'Low';
 
 export type CveRecord = {
   cve: string;
@@ -27,11 +27,11 @@ export const cveRecords: CveRecord[] = [
   { cve: 'Pending', program: 'OpenAEV-Platform/openaev', severity: 'High', score: 8.1, writeup: '', advisoryUrl: 'https://github.com/OpenAEV-Platform/openaev/security/advisories/GHSA-xhcc-mv5c-pch4' },
   { cve: 'Pending', program: 'OpenAEV-Platform/openaev', severity: 'High', score: 7.5, writeup: '', advisoryUrl: 'https://github.com/OpenAEV-Platform/openaev/security/advisories/GHSA-8vff-jf86-v9pp' },
   { cve: 'Pending', program: 'craftcms', severity: 'Low', writeup: '', advisoryUrl: 'https://github.com/craftcms/cms/security/advisories/GHSA-w5rh-mhxj-wr8r' },
-  { cve: 'Pending', program: 'nocodb', severity: 'Unrated', writeup: '', advisoryUrl: 'https://github.com/nocodb/nocodb/security/advisories/GHSA-hm8p-622v-9c6j' },
+  { cve: 'Pending', program: 'nocodb', severity: 'High', score: 7.1, writeup: '', advisoryUrl: 'https://github.com/nocodb/nocodb/security/advisories/GHSA-hm8p-622v-9c6j' },
   { cve: 'Pending', program: 'TandoorRecipes/recipes', severity: 'Moderate', score: 5.4, writeup: '', advisoryUrl: 'https://github.com/TandoorRecipes/recipes/security/advisories/GHSA-5p9v-743w-79h3#event-1213988' },
 ];
 
-export const severityRank: Record<Severity, number> = { Unrated: 0, Low: 1, Moderate: 2, High: 3, Critical: 4 };
+export const severityRank: Record<Severity, number> = { Low: 1, Moderate: 2, High: 3, Critical: 4 };
 
 // Numeric suffix of a CVE id; pending disclosures remain after published CVEs.
 export function cveNumber(cve: string): number {
