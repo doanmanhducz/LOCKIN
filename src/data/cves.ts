@@ -13,8 +13,8 @@ export type CveRecord = {
 export const cveRecords: CveRecord[] = [
   { cve: 'CVE-2026-61663', program: 'django-cms', severity: 'Moderate', score: 4.3, writeup: 'cve-2026-61663-django-cms' },
   { cve: 'CVE-2026-61726', program: 'TandoorRecipes/recipes', severity: 'High', score: 8.1, writeup: 'cve-2026-61726-tandoor-recipes' },
-  { cve: 'CVE-2026-94612', program: 'goauthentik/authentik', severity: 'High', score: 7.4, writeup: '' },
-  { cve: 'CVE-2026-105679', program: 'TryGhost/Ghost', severity: 'High', score: 7.3, writeup: '' },
+  { cve: 'CVE-2026-94612', program: 'goauthentik/authentik', severity: 'High', score: 7.4, writeup: 'cve-2026-94612-authentik-saml-audience' },
+  { cve: 'CVE-2026-105679', program: 'TryGhost/Ghost', severity: 'High', score: 7.3, writeup: 'cve-2026-105679-ghost-file-upload-xss' },
   { cve: 'Pending', program: 'Baserow', severity: 'High', score: 7.5, writeup: '', advisoryUrl: 'https://github.com/baserow/baserow/security/advisories/GHSA-r4rf-mcfj-8vm8' },
   { cve: 'Pending', program: 'TryGhost/Ghost', severity: 'High', score: 8.1, writeup: '', advisoryUrl: 'https://github.com/TryGhost/Ghost/security/advisories/GHSA-q55r-w7fh-rmh6' },
   { cve: 'Pending', program: 'TryGhost/Ghost', severity: 'Moderate', score: 4.3, writeup: '', advisoryUrl: 'https://github.com/TryGhost/Ghost/security/advisories/GHSA-vm82-r49m-224q' },

@@ -22,7 +22,8 @@ it('keeps published and pending records with valid severity scores', () => {
     { cve: 'Pending', severity: 'High', score: 7.5 }
   ]);
   expect(cveRecords.filter((record) => record.program === 'nautobot')).toHaveLength(2);
-  expect(cveRecords).toContainEqual({ cve: 'CVE-2026-94612', program: 'goauthentik/authentik', severity: 'High', score: 7.4, writeup: '' });
+  expect(cveRecords).toContainEqual({ cve: 'CVE-2026-94612', program: 'goauthentik/authentik', severity: 'High', score: 7.4, writeup: 'cve-2026-94612-authentik-saml-audience' });
+  expect(cveRecords).toContainEqual({ cve: 'CVE-2026-105679', program: 'TryGhost/Ghost', severity: 'High', score: 7.3, writeup: 'cve-2026-105679-ghost-file-upload-xss' });
   expect(cveRecords.filter((record) => record.cve === 'Pending').every((record) => record.writeup === '')).toBe(true);
   expect(cveRecords.filter((record) => record.cve !== 'Pending')).toHaveLength(4);
   expect(cveRecords.filter((record) => record.program === 'TryGhost/Ghost' && record.score === 7.3).map((record) => record.cve)).toEqual(['CVE-2026-105679']);
