@@ -28,6 +28,7 @@ it('keeps published and pending records with valid severity scores', () => {
   expect(cveRecords.filter((record) => record.program === 'TryGhost/Ghost' && record.score === 7.3).map((record) => record.cve)).toEqual(['CVE-2026-105679']);
   expect(cveRecords.filter((record) => record.program === 'TryGhost/Ghost' && record.score === 4.3 && record.advisoryUrl)).toHaveLength(2);
   expect(cveRecords).toContainEqual({ cve: 'Pending', program: 'craftcms', severity: 'Low', writeup: '', advisoryUrl: 'https://github.com/craftcms/cms/security/advisories/GHSA-w5rh-mhxj-wr8r' });
+  expect(cveRecords.find((record) => record.program === 'Baserow')?.score).toBe(7.5);
   expect(cveRecords).toContainEqual({ cve: 'Pending', program: 'nocodb', severity: 'High', score: 7.1, writeup: '', advisoryUrl: 'https://github.com/nocodb/nocodb/security/advisories/GHSA-hm8p-622v-9c6j' });
   expect(cveRecords).toContainEqual({ cve: 'Pending', program: 'TandoorRecipes/recipes', severity: 'Moderate', score: 5.4, writeup: '', advisoryUrl: 'https://github.com/TandoorRecipes/recipes/security/advisories/GHSA-5p9v-743w-79h3#event-1213988' });
 });
