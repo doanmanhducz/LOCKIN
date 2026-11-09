@@ -1,0 +1,50 @@
+---
+import { getCollection } from 'astro:content';
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getPostsByType } from '../../lib/posts';
+import { sitePath } from '../../lib/paths';
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const posts = getPostsByType(await getCollection('posts'), 'writeup');
+  return paginate(posts, { pageSize: 4 });
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+const { page } = Astro.props as Props;
+---
+
+<BaseLayout title="Write-Ups" currentPath="/writeups">
+  <section class="section listing">
+    <header class="section-title">
+      <p>$ tail -f writeups.log</p>
+      <h1>Write-Ups</h1>
+      <i></i>
+    </header>
+    <div class="post-grid">
+      {page.data.map((entry) => <PostCard entry={entry} />)}
+    </div>
+    {page.lastPage > 1 && <nav class="writeup-pagination" aria-label="Write-up pages">
+      <span class="writeup-pagination-status">Page {page.currentPage} of {page.lastPage}</span>
+      <div class="writeup-pagination-links">
+        {page.url.prev && <a class="writeup-page-step" href={sitePath(page.url.prev)}>← Previous</a>}
+        {Array.from({ length: page.lastPage }, (_, index) => {
+          const pageNumber = index + 1;
+          const path = pageNumber === 1 ? '/writeups/' : `/writeups/${pageNumber}/`;
+          return <a class="writeup-page-number" href={sitePath(path)} aria-label={`Page ${pageNumber}`} aria-current={pageNumber === page.currentPage ? 'page' : undefined}>{pageNumber}</a>;
+        })}
+        {page.url.next && <a class="writeup-page-step" href={sitePath(page.url.next)}>Next →</a>}
+      </div>
+    </nav>}
+  </section>
+</BaseLayout>
+
+<style>
+  .writeup-pagination{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:26px;padding-top:16px;border-top:1px solid var(--line);font:500 .72rem 'JetBrains Mono',monospace;color:var(--muted)}
+  .writeup-pagination-links{display:flex;justify-content:center;align-items:center;gap:6px;flex-wrap:wrap}
+  .writeup-pagination a{display:inline-flex;align-items:center;justify-content:center;min-width:38px;min-height:38px;padding:0 10px;border:1px solid var(--border);border-radius:7px;color:var(--accent-dim);background:#08100ebb;text-decoration:none;transition:background .15s,border-color .15s,color .15s}
+  .writeup-pagination a:hover,.writeup-pagination a:focus-visible,.writeup-pagination a[aria-current="page"]{border-color:var(--accent-dim);background:#00ff7f12;color:var(--accent)}
+  .writeup-pagination .writeup-page-step{padding-inline:12px}
+  @media(max-width:520px){.writeup-pagination{flex-direction:column;align-items:stretch;gap:12px}.writeup-pagination-status{text-align:center}.writeup-pagination-links{gap:5px}.writeup-pagination a{min-width:36px;min-height:40px;padding-inline:8px}.writeup-pagination .writeup-page-step{flex:1}}
+</style>
