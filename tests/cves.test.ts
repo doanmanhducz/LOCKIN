@@ -7,13 +7,13 @@ it('keeps CVE records ordered oldest to newest by CVE number', () => {
 });
 
 it('keeps published and pending records with valid severity scores', () => {
-  expect(cveRecords).toHaveLength(18);
+  expect(cveRecords).toHaveLength(19);
   expect(cveRecords.slice(0, 4).map((record) => record.cve)).toEqual(['CVE-2026-61663', 'CVE-2026-61726', 'CVE-2026-94612', 'CVE-2026-105679']);
   expect(cveRecords.every((record) => record.score === undefined || record.score > 0)).toBe(true);
-  expect(cveRecords.filter((record) => record.cve === 'Pending')).toHaveLength(14);
+  expect(cveRecords.filter((record) => record.cve === 'Pending')).toHaveLength(15);
   expect(cveRecords.every((record) => !record.program.toLowerCase().includes('totolink'))).toBe(true);
   const pendingWithAdvisories = cveRecords.filter((record) => record.advisoryUrl);
-  expect(pendingWithAdvisories).toHaveLength(14);
+  expect(pendingWithAdvisories).toHaveLength(15);
   expect(pendingWithAdvisories.every((record) => record.cve === 'Pending')).toBe(true);
   expect(pendingWithAdvisories.every((record) => record.advisoryUrl?.startsWith('https://github.com/'))).toBe(true);
   expect(cveRecords.filter((record) => record.program === 'OpenAEV-Platform/openaev').map(({ cve, severity, score }) => ({ cve, severity, score }))).toEqual([
@@ -29,6 +29,7 @@ it('keeps published and pending records with valid severity scores', () => {
   expect(cveRecords.filter((record) => record.program === 'TryGhost/Ghost' && record.score === 7.3).map((record) => record.cve)).toEqual(['CVE-2026-105679']);
   expect(cveRecords.filter((record) => record.program === 'TryGhost/Ghost' && record.score === 4.3 && record.advisoryUrl)).toHaveLength(2);
   expect(cveRecords).toContainEqual({ cve: 'Pending', program: 'craftcms', severity: 'Low', writeup: '', advisoryUrl: 'https://github.com/craftcms/cms/security/advisories/GHSA-w5rh-mhxj-wr8r' });
+  expect(cveRecords).toContainEqual({ cve: 'Pending', program: 'plane', severity: 'Moderate', score: 5.4, writeup: '', advisoryUrl: 'https://github.com/makeplane/plane/security/advisories/GHSA-vfqm-7rh7-84hq' });
   expect(cveRecords.find((record) => record.program === 'Baserow')?.score).toBe(7.5);
   expect(cveRecords).toContainEqual({ cve: 'Pending', program: 'nocodb', severity: 'High', score: 7.1, writeup: '', advisoryUrl: 'https://github.com/nocodb/nocodb/security/advisories/GHSA-hm8p-622v-9c6j' });
   expect(cveRecords).toContainEqual({ cve: 'Pending', program: 'TandoorRecipes/recipes', severity: 'Moderate', score: 5.4, writeup: '', advisoryUrl: 'https://github.com/TandoorRecipes/recipes/security/advisories/GHSA-5p9v-743w-79h3#event-1213988' });

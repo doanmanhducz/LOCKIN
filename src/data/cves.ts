@@ -28,6 +28,7 @@ export const cveRecords: CveRecord[] = [
   { cve: 'Pending', program: 'OpenAEV-Platform/openaev', severity: 'High', score: 7.5, writeup: '', advisoryUrl: 'https://github.com/OpenAEV-Platform/openaev/security/advisories/GHSA-8vff-jf86-v9pp' },
   { cve: 'Pending', program: 'craftcms', severity: 'Low', writeup: '', advisoryUrl: 'https://github.com/craftcms/cms/security/advisories/GHSA-w5rh-mhxj-wr8r' },
   { cve: 'Pending', program: 'nocodb', severity: 'High', score: 7.1, writeup: '', advisoryUrl: 'https://github.com/nocodb/nocodb/security/advisories/GHSA-hm8p-622v-9c6j' },
+  { cve: 'Pending', program: 'plane', severity: 'Moderate', score: 5.4, writeup: '', advisoryUrl: 'https://github.com/makeplane/plane/security/advisories/GHSA-vfqm-7rh7-84hq' },
   { cve: 'Pending', program: 'TandoorRecipes/recipes', severity: 'Moderate', score: 5.4, writeup: '', advisoryUrl: 'https://github.com/TandoorRecipes/recipes/security/advisories/GHSA-5p9v-743w-79h3#event-1213988' },
 ];
 
